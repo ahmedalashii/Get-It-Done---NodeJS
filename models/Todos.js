@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
-const statuses = ["NOT_STARTED", "IN_PROGRESS", "DONE", "CANCELLED"];
+const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
 const TodosSchema = new mongoose.Schema({
     todo: String,
     author: String,
-    creationDate: Date,
-    sort: Number, // 1, 2, 3, 4, 5 >> 1 is the most important and 5 is the least important
+    created_at: Date,
+    updated_at: Date,
+    deadline: Date,
+    completed_at: Date,
+    sort: Number, // 1, 2, 3, 4, 5 .. >> length of the array 
     status: {
         type: String,
         enum: statuses,
@@ -13,8 +16,11 @@ const TodosSchema = new mongoose.Schema({
     subTodos: [{
         todo: String,
         author: String,
-        creationDate: Date,
-        sort: Number, // 1, 2, 3, 4, 5 >> 1 is the most important and 5 is the least important
+        created_at: Date,
+        updated_at: Date,
+        deadline: Date,
+        completed_at: Date,
+        sort: Number, // 1, 2, 3, 4, 5 .. >> length of the array
         status: {
             type: String,
             enum: statuses,
