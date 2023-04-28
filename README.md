@@ -21,7 +21,6 @@ Before running this application, make sure you have the following installed on y
 
 This application can be tested using an API development tool like Postman. You can use the following endpoints to interact with the API:
 
-```http
 1- GET /todos
  To get a list of all todos.
 2- GET /todos/:todoId
