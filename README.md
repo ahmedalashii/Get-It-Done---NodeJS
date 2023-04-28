@@ -1,4 +1,4 @@
-# Node.js and Express Todo List
+# Node.js and Express Todo List GetItDone App
 
 This is a simple todo list application built using Node.js and Express framework. It allows users to add, edit, and delete tasks.
 
