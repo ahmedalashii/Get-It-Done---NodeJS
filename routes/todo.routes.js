@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const auth = require('../middlewares/auth');
 //! Router is a middleware in Express that allows you to group the route handlers for a particular part of a site together and access them using a common route-prefix.
 const TodoController = require("../controllers/todo.controller");
 
@@ -39,12 +39,16 @@ module.exports = router;
     ├───── `index.js`
     ├───── `controllers`
         ├── todo.controller.js
+        ├── user.controller.js
     ├───── `models`
         ├── Todo.js
+        ├── User.js
     ├───── `routes`
         ├── todo.routes.js
+        ├── user.routes.js
     ├───── `services`
         ├── TodoService.js
+        ├── UserService.js
 */
 
 /*

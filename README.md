@@ -39,12 +39,16 @@ Model View Controller is a software architectural pattern that involves the sepa
 
 ├───── `index.js` <br />
 ├───── `controllers` <br />
+    ├── user.controller.js <br />
     ├── todo.controller.js <br />
 ├───── `models` <br />
+    ├── User.js <br />
     ├── Todo.js <br />
 ├───── `routes` <br />
+    ├── user.routes.js <br />
     ├── todo.routes.js <br />
 ├───── `services` <br />
+    ├── UserService.js <br />
     ├── TodoService.js <br />
 
 ## Description
@@ -62,32 +66,39 @@ REST is an acronym for Representation State Transfer, API on the other hand is a
 
 This application can be tested using an API development tool like Postman. You can use the following endpoints to interact with the API:
 
+### User Endpoints
+1. GET /user/register
+    To register a new user.
+2. GET /user/login
+    To login a user.
+
+### Todo Endpoints
 1. GET /todos
- To get a list of all todos.
+    To get a list of all todos.
 
 2. GET /todos/:todoId
- To get a single todo, where :todoId is the ID of the todo you want to retrieve.
+    To get a single todo, where :todoId is the ID of the todo you want to retrieve.
 
 3. GET /todos/get-sub-todo/:todoId/:subTodoId
- To get a single sub-todo, where :todoId is the ID of the parent todo and :subTodoId is the ID of the sub-todo you want to retrieve.
+    To get a single sub-todo, where :todoId is the ID of the parent todo and :subTodoId is the ID of the sub-todo you want to retrieve.
 
 4. POST /todos/new
- To create a new todo, with the todo details in the request body.
+    To create a new todo, with the todo details in the request body.
 
 5. POST /todos/new-sub-todo/:todoId
- To create a new sub-todo for a specific todo, with the sub-todo details in the request body and :todoId as the ID of the parent todo.
+    To create a new sub-todo for a specific todo, with the sub-todo details in the request body and :todoId as the ID of the parent todo.
 
 6. PUT /todos/update/:todoId
- To update a todo, with the updated todo details in the request body and :todoId as the ID of the todo.
+    To update a todo, with the updated todo details in the request body and :todoId as the ID of the todo.
 
 7. PUT /todos/update-sub-todo/:todoId/:subTodoId
- To update a sub-todo, with the updated sub-todo details in the request body, :todoId as the ID of the parent todo, and :subTodoId as the ID of the sub-todo.
+    To update a sub-todo, with the updated sub-todo details in the request body, :todoId as the ID of the parent todo, and :subTodoId as the ID of the sub-todo.
 
 8. DELETE /todos/delete/:todoId
- To delete a todo, where :todoId is the ID of the todo you want to delete.
+    To delete a todo, where :todoId is the ID of the todo you want to delete.
 
 9. DELETE /todos/delete-sub-todo/:todoId/:subTodoId
- To delete a sub-todo, where :todoId is the ID of the parent todo and :subTodoId is the ID of the sub-todo you want to delete.
+    To delete a sub-todo, where :todoId is the ID of the parent todo and :subTodoId is the ID of the sub-todo you want to delete.
 
 
 
