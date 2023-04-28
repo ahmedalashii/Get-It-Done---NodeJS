@@ -18,8 +18,9 @@ Before running this application, make sure you have the following installed on y
 2. Navigate to the project directory in your terminal
 3. Create a `.env` file in the root directory with the following variables:
     ```
-    MONGODB_URI=<your-mongodb-uri>
-    PORT=<port-number>
+     MONGODB_URI=<your-mongodb-uri>
+      API_PORT=<port-number>
+      JWT_TOKEN_KEY= A random String!
     ```
 4. Run `npm install` to install the dependencies
 5. Run `npm start` to start the server
