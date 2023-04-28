@@ -37,15 +37,15 @@ Model View Controller is a software architectural pattern that involves the sepa
 
 ## Project Structure/Archictecture
 
-├───── `index.js`
-├───── `controllers`
-    ├── todo.controller.js
-├───── `models`
-    ├── Todo.js
-├───── `routes`
-    ├── todo.routes.js
-├───── `services`
-    ├── TodoService.js
+├───── `index.js` <br />
+├───── `controllers` <br />
+    ├── todo.controller.js <br />
+├───── `models` <br />
+    ├── Todo.js <br />
+├───── `routes` <br />
+    ├── todo.routes.js <br />
+├───── `services` <br />
+    ├── TodoService.js <br />
 
 ## Description
 - `index.js` is the entry point of the application.
