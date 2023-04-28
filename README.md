@@ -31,7 +31,7 @@ Before running this application, make sure you have the following installed on y
  - The application is built using Node.js and Express framework.
  - The application uses MongoDB as the database.
  - The application uses Mongoose as the ODM (Object Data Modeling) library.
- - The application uses the MVC (Model-View-Controller) architecture, Where the model is the data, the view is the user interface, and the controller is the brains of the application, which handles the logic and incoming requests.
+ - The application uses the MVC (Model-View-Controller) architecture, Where the model is the data, the view is the user interface (or API), and the controller is the brains of the application, which handles the logic and incoming requests.
  - The application uses Restful API architecture, where the API is designed to have logical endpoints that are easy to understand and remember.
 
 ## What is the MVC architecture?
