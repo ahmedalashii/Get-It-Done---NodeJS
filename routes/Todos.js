@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
 router.post('/new', async (req, res) => {
     const request = req.body;   // req.body is the data that the Vue App will send
     // Validating the data before we create a new Todo >> A best practice is to validate the data on the client side as well
-    if (!request.todo || !request.author || !request.deadline || !request.sort) { // We can use express-validator as well , but for now we will just check if the required fields are filled
+    if (!request.todo || !request.author || !request.deadline || !request.sort) { // Mongoose Schema also offer validation, We can use express-validator as well , but for now we will just check if the required fields are filled
         return res.status(400).json({ message: "Please fill in all the required fields (todo, author, deadline, sort)." });
     }
     const newTodo = new Todo(
