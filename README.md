@@ -20,6 +20,7 @@ Before running this application, make sure you have the following installed on y
     ```
      MONGODB_URI=<your-mongodb-uri>
      API_PORT=<port-number>
+     # Token key for JWT authentication >> It's just a random string for now
      JWT_TOKEN_KEY= A random String!
     ```
 4. Run `npm install` to install the dependencies
