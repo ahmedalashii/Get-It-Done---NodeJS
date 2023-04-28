@@ -72,7 +72,8 @@ This application can be tested using an API development tool like Postman. You c
 2. GET /user/login
     To login a user.
 
-### Todo Endpoints
+### Todo Endpoints 
+#### All todo endpoints require a valid token in the request header. You can get a token by registering a new user or logging in an existing user.
 1. GET /todos
     To get a list of all todos.
 
