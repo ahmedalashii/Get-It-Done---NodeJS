@@ -69,20 +69,5 @@ const userService = class UserService {
             console.log("Couldn't Login", error);
         }
     }
-
-    static async logout(token) {
-        try {
-            const user = await User.findOne({ token: token });
-            if (!user) {
-                return { error: "User Doesn't Exist. Please Register" };
-            }
-            // Delete token
-            user.token = null;
-            // return user
-            return user;
-        } catch (error) {
-            console.log("Couldn't Logout", error);
-        }
-    }
 }
 module.exports = userService;

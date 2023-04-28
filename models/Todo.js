@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
 const TodosSchema = new mongoose.Schema({
     todo: String,
-    author: String,
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     created_at: {
         type: Date,
         default: Date.now,
@@ -11,7 +11,7 @@ const TodosSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    deadline: Date,
+    deadline: Date, // or due_date
     completed_at: Date,
     sort: Number, // 1, 2, 3, 4, 5 .. >> length of the array 
     status: {
@@ -21,7 +21,6 @@ const TodosSchema = new mongoose.Schema({
     },
     subTodos: [{
         todo: String,
-        author: String,
         created_at: Date,
         updated_at: Date,
         deadline: Date,

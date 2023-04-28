@@ -1,10 +1,12 @@
 const { request } = require("express");
 const TodoService = require("../services/TodoService");
+const UserService = require("../services/UserService");
 
 const todoController = class TodoController {
     static async apiGetAllTodos(request, response, next) {
         try {
-            const todos = await TodoService.getAllTodos();
+            // We want to get all todos of the logged in user, so we will get the user id from the request object
+            const todos = await TodoService.getAllTodos(request.user);
             if (!todos) {
                 response.status(404).json({ message: "Couldn't Get All Todos" });
             }
@@ -42,10 +44,10 @@ const todoController = class TodoController {
         try {
             const body = request.body; // request.body is the data that the Vue App will send
             // Validating the data before we create a new Todo >> A best practice is to validate the data on the client side as well
-            if (!body.todo || !body.author || !body.deadline || !body.sort) { // Mongoose Schema also offer validation, We can use express-validator as well , but for now we will just check if the required fields are filled
-                response.status(400).json({ message: "Please fill in all the required fields (todo, author, deadline, sort)." });
+            if (!body.todo || !body.deadline || !body.sort) { // Mongoose Schema also offer validation, We can use express-validator as well , but for now we will just check if the required fields are filled
+                response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sort)." });
             }
-            const createdTodo = await TodoService.createNewTodo(body);
+            const createdTodo = await TodoService.createNewTodo(request.user, body);
             if (!createdTodo) {
                 response.status(404).json({ message: "Couldn't Create New Todo" });
             }
@@ -59,8 +61,8 @@ const todoController = class TodoController {
         try {
             // Validating the data before we create a new subTodo >> A best practice is to validate the data on the client side as well
             const body = request.body;
-            if (!body.todo || !body.author || !body.sort || !body.deadline) {
-                response.status(400).json({ message: "Please fill in all the required fields (todo, author, deadline, sort)." });
+            if (!body.todo || !body.sort || !body.deadline) {
+                response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sort)." });
             }
             const createdSubTodo = await TodoService.createNewSubTodoByTodoId(request.params.todoId, body);
             if (!createdSubTodo) {
@@ -76,8 +78,8 @@ const todoController = class TodoController {
         try {
             const body = request.body;
             // Validating the data before we update a Todo >> A best practice is to validate the data on the client side as well
-            if (!body.todo && !body.author && !body.sort && !body.status && !body.subTodos && !body.deadline) {
-                response.status(400).json({ message: "Please fill in at least one field to update (todo, author, deadline, sort, status, subTodos)." });
+            if (!body.todo && !body.sort && !body.status && !body.subTodos && !body.deadline) {
+                response.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sort, status, subTodos)." });
             }
             const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
             if (body.status && !statuses.includes(body.status)) {
@@ -97,8 +99,8 @@ const todoController = class TodoController {
         try {
             const body = request.body;
             // Validating the data before we update a subTodo >> A best practice is to validate the data on the client side as well
-            if (!body.todo && !body.author && !body.status && !body.sort && !body.deadline) {
-                res.status(400).json({ message: "Please fill in at least one field to update (todo, author, deadline, sort, status)." });
+            if (!body.todo && !body.status && !body.sort && !body.deadline) {
+                res.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sort, status)." });
             }
             const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
             if (body.status && !statuses.includes(body.status)) {

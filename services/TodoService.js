@@ -2,9 +2,9 @@ const Todo = require('../models/Todo');
 
 const todoService = class TodoService {
 
-    static async getAllTodos() {
+    static async getAllTodos(user) {
         try {
-            const allTodos = await Todo.find(); // find() method returns all the documents in a collection.
+            const allTodos = await Todo.find({ author: user.user_id }); // find() method returns an array of documents.
             return allTodos;
         } catch (err) {
             console.log("Couldn't Get All Todos: ", err);
@@ -21,6 +21,7 @@ const todoService = class TodoService {
     }
 
     static async getSubTodoByIDs(todoId, subTodoId) {
+        // We don't need to pass the user here because if we have the subTodoId then we have the user :) (middleware)
         try {
             const specificSubTodo = await Todo.findOne(
                 { _id: todoId },
@@ -32,11 +33,11 @@ const todoService = class TodoService {
         }
     }
 
-    static async createNewTodo(data) {
+    static async createNewTodo(user, data) {
         const newTodo = new Todo(
             {
                 todo: data.todo,
-                author: data.author,
+                author: user.user_id,
                 created_at: new Date(),
                 updated_at: new Date(),
                 deadline: data.deadline,
@@ -57,9 +58,9 @@ const todoService = class TodoService {
     }
 
     static async createNewSubTodoByTodoId(todoId, data) {
+        // We don't need to pass the user here because if we have the todoId then we have the user :) (middleware)
         const newSubTodo = {
             todo: data.todo,
-            author: data.author,
             created_at: new Date(),
             updated_at: new Date(),
             deadline: data.deadline,
@@ -81,11 +82,16 @@ const todoService = class TodoService {
     }
 
     static async updateTodoById(todoId, data) {
+        // We don't need to pass the user here because if we have the todoId then we have the user :) (middleware)
         try {
             const oldTodo = await Todo.findById({ _id: todoId });
+            if (!oldTodo) {
+                const error = { message: "Todo not found" };
+                return error;
+            }
             const todo = {
                 todo: data.todo ?? oldTodo.todo,
-                author: data.author ?? oldTodo.author,
+                author: oldTodo.author,
                 updated_at: new Date(),
                 deadline: data.deadline ?? oldTodo.deadline,
                 sort: data.sort ?? oldTodo.sort,
@@ -106,8 +112,14 @@ const todoService = class TodoService {
     }
 
     static async updateSubTodoByIDs(todoId, subTodoId, data) {
+        // We don't need to pass the user here because if we have the IDs then we have the user :) (middleware)
         try {
             const parentTodo = await Todo.findById({ _id: todoId });
+            console.log(parentTodo);
+            if (!parentTodo) {
+                const error = { message: "Todo not found" };
+                return error;
+            }
             //? Can we update a subTodo for a canceled todo? >> No, we can't update
             if (parentTodo.status === "CANCELED") {
                 const error = { message: "You can't update a subTodo for a canceled todo." };
@@ -116,9 +128,13 @@ const todoService = class TodoService {
             const oldSubTodo = await Todo.findOne(
                 { _id: todoId, "subTodos._id": subTodoId },
             );
+            if (!oldSubTodo) {
+                const error = { message: "SubTodo not found" };
+                return error;
+            }
             const subTodo = {
                 todo: data.todo ?? oldSubTodo.subTodos[0].todo,
-                author: data.author ?? oldSubTodo.subTodos[0].author,
+                author: oldSubTodo.subTodos[0].author,
                 status: data.status ?? oldSubTodo.subTodos[0].status,
                 updated_at: new Date(),
                 deadline: data.deadline ?? oldSubTodo.subTodos[0].deadline,

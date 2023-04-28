@@ -25,8 +25,8 @@ const userController = class UserController {
     static async login(request, response, next) {
         try {
             const body = request.body;
-            if (!body.username || !body.password) {
-                response.status(400).json({ message: "Please fill in all the required fields (username, password)." });
+            if (!body.email || !body.password) {
+                response.status(400).json({ message: "Please fill in all the required fields (email, password)." });
             }
             const user = await UserService.login(body);
             if (!user) {
@@ -41,22 +41,6 @@ const userController = class UserController {
         }
     }
 
-    // Logout using the token from the request
-    static async logout(request, response, next) {
-        try {
-            const token = request.body.token || request.query.token || request.headers['x-access-token'];
-            const user = await UserService.logout(token);
-            if (!user) {
-                response.status(404).json({ message: "Couldn't Logout" });
-            }
-            if (user.error) {
-                response.status(400).json({ message: user.error });
-            }
-            response.status(200).json(user);
-        } catch (error) {
-            response.status(500).json({ error: error });
-        }
-
-    }
+    //! Note: We can use redis to store the token and check if it's valid or not :)
 }
 module.exports = userController;
