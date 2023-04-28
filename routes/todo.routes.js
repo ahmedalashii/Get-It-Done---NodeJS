@@ -1,37 +1,37 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 //! Router is a middleware in Express that allows you to group the route handlers for a particular part of a site together and access them using a common route-prefix.
 const TodoController = require("../controllers/todo.controller");
 
 // Get All Todo routes
-router.get('/', TodoController.apiGetAllTodos);
+router.get('/', auth, TodoController.apiGetAllTodos);
 
 // Get a specific Todo route by ID >> GET method
-router.get('/get/:todoId', TodoController.apiGetTodoById);
+router.get('/get/:todoId', auth, TodoController.apiGetTodoById);
 
 // Get a specific subTodo route by ID >> GET method
-router.get('/get-sub-todo/:todoId/:subTodoId', TodoController.apiGetSubTodoByIDs);
+router.get('/get-sub-todo/:todoId/:subTodoId', auth, TodoController.apiGetSubTodoByIDs);
 
 // Create a Todo route >> POST method
-router.post('/new', TodoController.apiCreateNewTodo);
+router.post('/new', auth, TodoController.apiCreateNewTodo);
 
 // Add a subTodo route >> POST method
-router.post('/new-sub-todo/:todoId', TodoController.apiCreateNewSubTodoByTodoId);
+router.post('/new-sub-todo/:todoId', auth, TodoController.apiCreateNewSubTodoByTodoId);
 
 // Update a specific Todo route by ID >> PUT method
-router.put('/update/:todoId', TodoController.apiUpdateTodoById);
+router.put('/update/:todoId', auth, TodoController.apiUpdateTodoById);
 
 // Update a specific subTodo route by ID >> PATCH method
-router.patch('/update-sub-todo/:todoId/:subTodoId', TodoController.apiUpdateSubTodoByIDs);
+router.patch('/update-sub-todo/:todoId/:subTodoId', auth, TodoController.apiUpdateSubTodoByIDs);
 
 // Delete a specific Todo route by ID >> DELETE method
-router.delete('/delete/:todoId', TodoController.apiDeleteTodoById);
+router.delete('/delete/:todoId', auth, TodoController.apiDeleteTodoById);
 
 // Delete a subTodo route by ID >> DELETE method
-router.delete('/delete-sub-todo/:todoId/:subTodoId', TodoController.apiDeleteSubTodoByIDs);
+router.delete('/delete-sub-todo/:todoId/:subTodoId', auth, TodoController.apiDeleteSubTodoByIDs);
 
 module.exports = router;
-
 
 /*
     ! Note: The structure of the Project is as follows:
