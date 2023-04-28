@@ -3,8 +3,14 @@ const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
 const TodosSchema = new mongoose.Schema({
     todo: String,
     author: String,
-    created_at: Date,
-    updated_at: Date,
+    created_at: {
+        type: Date,
+        default: Date.now,
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now,
+    },
     deadline: Date,
     completed_at: Date,
     sort: Number, // 1, 2, 3, 4, 5 .. >> length of the array 

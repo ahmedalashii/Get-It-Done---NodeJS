@@ -1,21 +1,24 @@
-// mongodb+srv://ahmedalasher22:<password>@cluster0.bh9v9el.mongodb.net/?retryWrites=true&w=majority
 const express = require('express');
 //! Express is a routing and middleware web framework that has minimal functionality of its own: An Express application is essentially a series of middleware function calls.
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser'); // to parse the body of the request
+//! Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. Mongoose supports both promises and callbacks.
+const bodyParser = require('body-parser');
+//! Node.js body parsing middleware. It's used to parse the incoming request bodies in a middleware before you handle it.
 require('dotenv').config();
-// Create out express app
-const app = express();
+//! Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env. Storing configuration in the environment separate from code is based on The Twelve-Factor App methodology.
 
+
+//* Create an express app
+const app = express();
 // Handle CORS + middleware >> CORS = Cross Origin Resource Sharing which is a security feature in browsers
 app.use(function (req, res, next) { // req = request, res = response, next = next function
-    res.header("Access-Control-Allow-Origin", "*"); // * = allow all
+    res.header("Access-Control-Allow-Origin", "*"); //^ = allow all
     res.header("Access-Control-Allow-METHODS", "GET, POST, PATCH, PUT, DELETE, HEAD, OPTIONS"); // allow these methods
     res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept"); // allow these headers
     next();
 });
 
-// DB STUFF
+//* DB STUFF
 const uri = process.env.ATLAS_DB_STRING;
 mongoose.connect(uri,
     {
@@ -24,12 +27,29 @@ mongoose.connect(uri,
     }).then(() => {
         console.log('Connected to DB');
     }).catch((err) => {
-        console.log(err);
+        console.log("Error in connecting to DB: " + err);
     });
 
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // to parse the body of the request
 
-// Routes
+app.get("/", (res, req) => { // GET method
+    res.send("Hoooray! It works! This is Home page"); // a great info right! :D
+});
+
+const TodosRoute = require('./routes/todo.routes'); // import the todos route
+app.use('/todos', TodosRoute); // use the todos route
+const PORT = process.env.PORT || 3000;
+// The OR operator || uses the right value if left is falsy, while the nullish coalescing operator ?? uses the right value if left is null or undefined.
+app.listen(PORT, () => {
+    console.log("Server is running on port 3000");
+});
+
+
+
+
+//? What are routes?
 /*
     Basic routing:
     Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (GET, POST, and so on).
@@ -100,14 +120,3 @@ app.use(bodyParser.json()); // to parse the body of the request
         res.send('USER')
     })
 */
-
-app.get("/", (res, req) => { // GET method
-    res.send("Hoooray! It works! Home page");
-});
-
-const TodosRoute = require('./routes/Todos');
-app.use('/todos', TodosRoute); // use the todos route
-
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
-});
