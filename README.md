@@ -102,4 +102,5 @@ This application can be tested using an API development tool like Postman. You c
     To delete a sub-todo, where :todoId is the ID of the parent todo and :subTodoId is the ID of the sub-todo you want to delete.
 
 
-
+## Medium Article (Recommened :))
+https://medium.com/@ahmedalasher22/understanding-mvc-pattern-in-nodejs-f6eff0eeda84
