@@ -139,6 +139,18 @@ const todoController = class TodoController {
             response.status(500).json({ error: error });
         }
     }
+
+    static async apiGetStatistics(request, response, next) {
+        try {
+            const statistics = await TodoService.apiGetStatistics(request);
+            if (!statistics) {
+                response.status(404).json({ message: "Couldn't Get Statistics!" });
+            }
+            response.status(200).json(statistics);
+        } catch (error) {
+            response.status(500).json({ error: error });
+        }
+    }
 }
 
 module.exports = todoController;

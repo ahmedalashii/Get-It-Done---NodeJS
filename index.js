@@ -2,10 +2,11 @@ const express = require('express');
 //! Express is a routing and middleware web framework that has minimal functionality of its own: An Express application is essentially a series of middleware function calls.
 const bodyParser = require('body-parser');
 //! Node.js body parsing middleware. It's used to parse the incoming request bodies in a middleware before you handle it.
-
+const cors = require('cors');
 //* Create an express app
 const app = express();
 // Handle CORS + middleware >> CORS = Cross Origin Resource Sharing which is a security feature in browsers
+app.use(cors());
 app.use(function (req, res, next) { // req = request, res = response, next = next function
     res.header("Access-Control-Allow-Origin", "*"); //^ = allow all
     res.header("Access-Control-Allow-METHODS", "GET, POST, PATCH, PUT, DELETE, HEAD, OPTIONS"); // allow these methods
@@ -19,14 +20,16 @@ require("dotenv").config();
 require("./config/database").connect();
 
 app.use(express.json());
+/*
+    * Returns middleware that only parses urlencoded bodies and only looks at requests
+    * where the Content-Type header matches the type option
+*/
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()); // to parse the body of the request
-
+// using bodyParser to parse JSON bodies into JS objects
+app.use(bodyParser.json());
 app.get("/", (res, req) => { // GET method
     res.send("Hoooray! It works! This is Home page"); // a great info right! :D
 });
-
-
 
 
 const UserRoute = require('./routes/user.routes'); // import the user route

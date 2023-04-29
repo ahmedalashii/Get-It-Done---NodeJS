@@ -1,5 +1,5 @@
 const Todo = require('../models/Todo');
-
+const User = require('../models/User');
 const todoService = class TodoService {
 
     static async getAllTodos(user) {
@@ -177,6 +177,43 @@ const todoService = class TodoService {
             return deletedSubTodo;
         } catch (err) {
             console.log("Couldn't Delete SubTodo By Ids: ", err);
+        }
+    }
+
+    static async apiGetStatistics(request) {
+        try {
+            const user = await User.findById({ _id: request.user.user_id });
+            // We want to get the percentage of the completed todos for the current user to the total number of todos for the current user
+            const totalTodos = await Todo.countDocuments({ author: user._id });
+            const completedTodos = await Todo.countDocuments({ author: user._id, status: "COMPLETED" });
+            const completionRate = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
+            /*
+                * The system will return a statistics response that shows the average completion rate per day.
+                * For example, if the user has completed 30 todos and has been using the system for 10 days, 
+                * the average completion rate per day would be: 30 / 10 = 3
+                * This means that on average, the user completes 3 todos per day.
+            */
+            const daysSinceSignUp = Math.round((new Date() - user.created_at) / (1000 * 60 * 60 * 24)); // Math.ceil() method rounds a number up to the next largest integer.
+            const averageCompletionRate = daysSinceSignUp > 0 ? Math.round(completedTodos / daysSinceSignUp * 10) / 10 : 0;
+            console.log("User: ", user);
+            console.log("Total Todos: ", totalTodos);
+            console.log("Completed Todos: ", completedTodos);
+            console.log("Completion Rate: ", completionRate);
+            console.log("Signup Date: ", user.created_at);
+            console.log("Days Since Sign Up: ", daysSinceSignUp);
+            console.log("Average Completion Rate: ", averageCompletionRate);
+            const statistics = {
+                totalTodos: totalTodos,
+                completedTodos: completedTodos,
+                completionRate: completionRate.toFixed(2), // toFixed() method formats a number using fixed-point notation.
+                signupDate: user.created_at,
+                daysSinceSignUp: daysSinceSignUp,
+                averageCompletionRate: averageCompletionRate,
+                lastCompletedTodo: await Todo.findOne({ author: user._id, status: "COMPLETED" }).sort({ completed_at: "descending" }),
+            };
+            return statistics;
+        } catch (err) {
+            console.log("Couldn't Get Statistics: ", err);
         }
     }
 }

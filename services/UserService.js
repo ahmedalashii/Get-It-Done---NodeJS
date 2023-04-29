@@ -25,6 +25,7 @@ const userService = class UserService {
                 last_name: last_name,
                 email: email.toLowerCase(), // sanitize: convert email to lowercase
                 password: encryptedPassword,
+                created_at: new Date(),
             });
             // Create a token
             const token = jwt.sign(

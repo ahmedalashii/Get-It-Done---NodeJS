@@ -1,5 +1,20 @@
 const mongoose = require('mongoose');
 const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
+
+const SubTodosSchema = new mongoose.Schema({
+    todo: String,
+    created_at: Date,
+    updated_at: Date,
+    deadline: Date,
+    completed_at: Date,
+    sort: Number, // 1, 2, 3, 4, 5 .. >> length of the array
+    status: {
+        type: String,
+        enum: statuses,
+        default: statuses[0]
+    },
+});
+
 const TodosSchema = new mongoose.Schema({
     todo: String,
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -19,18 +34,6 @@ const TodosSchema = new mongoose.Schema({
         enum: statuses,
         default: statuses[0],
     },
-    subTodos: [{
-        todo: String,
-        created_at: Date,
-        updated_at: Date,
-        deadline: Date,
-        completed_at: Date,
-        sort: Number, // 1, 2, 3, 4, 5 .. >> length of the array
-        status: {
-            type: String,
-            enum: statuses,
-            default: statuses[0]
-        },
-    }]
+    subTodos: [SubTodosSchema]
 });
 module.exports = mongoose.model('Todos', TodosSchema);
