@@ -195,13 +195,13 @@ const todoService = class TodoService {
             */
             const daysSinceSignUp = Math.round((new Date() - user.created_at) / (1000 * 60 * 60 * 24)); // Math.ceil() method rounds a number up to the next largest integer.
             const averageCompletionRate = daysSinceSignUp > 0 ? Math.round(completedTodos / daysSinceSignUp * 10) / 10 : 0;
-            console.log("User: ", user);
-            console.log("Total Todos: ", totalTodos);
-            console.log("Completed Todos: ", completedTodos);
-            console.log("Completion Rate: ", completionRate);
-            console.log("Signup Date: ", user.created_at);
-            console.log("Days Since Sign Up: ", daysSinceSignUp);
-            console.log("Average Completion Rate: ", averageCompletionRate);
+            // console.log("User: ", user);
+            // console.log("Total Todos: ", totalTodos);
+            // console.log("Completed Todos: ", completedTodos);
+            // console.log("Completion Rate: ", completionRate);
+            // console.log("Signup Date: ", user.created_at);
+            // console.log("Days Since Sign Up: ", daysSinceSignUp);
+            // console.log("Average Completion Rate: ", averageCompletionRate);
             const statistics = {
                 totalTodos: totalTodos,
                 completedTodos: completedTodos,
