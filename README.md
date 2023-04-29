@@ -37,6 +37,8 @@ Before running this application, make sure you have the following installed on y
 ## What is the MVC architecture?
 Model View Controller is a software architectural pattern that involves the separation of the application logic into three interconnected elements the Model, View, and Controller.
 
+![alt text](https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api/_static/architecture.png?view=aspnetcore-7.0)
+
 ## Project Structure/Archictecture
 
 ├───── `index.js` <br />
