@@ -8,7 +8,7 @@ router.post("/register", UserController.register);
 // Login a registered User
 router.post("/login", UserController.login);
 
-//! Note that we can use a rate limiter to limit the number of requests to the login route, to prevent brute force attacks. >> but for now it's just a simple app, so we don't need to do that.
+//! Note that we can use a rate limiter (throttling) to limit the number of requests to the login route, to prevent brute force attacks. >> but for now it's just a simple app, so we don't need to do that.
 
 // Logout a registered User (Delete the token) >> We can use redis to store the token and check if it's valid or not :)
 // router.post("/logout", auth, UserController.logout);
