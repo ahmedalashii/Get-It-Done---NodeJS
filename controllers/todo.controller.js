@@ -8,11 +8,11 @@ const todoController = class TodoController {
             // We want to get all todos of the logged in user, so we will get the user id from the request object
             const todos = await TodoService.getAllTodos(request.user);
             if (!todos) {
-                response.status(404).json({ message: "Couldn't Get All Todos" });
+                return response.status(404).json({ message: "Couldn't Get All Todos" });
             }
-            response.status(200).json(todos);
+            return response.status(200).json(todos);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -20,11 +20,11 @@ const todoController = class TodoController {
         try {
             const todo = await TodoService.getTodoById(request.params.todoId); // request.params.todoId is the id that we will get from the url >> /api/todos/:todoId
             if (!todo) {
-                response.status(404).json({ message: "Couldn't Get Todo By Id" });
+                return response.status(404).json({ message: "Couldn't Get Todo By Id" });
             }
-            response.status(200).json(todo);
+            return response.status(200).json(todo);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -32,11 +32,11 @@ const todoController = class TodoController {
         try {
             const subTodo = await TodoService.getSubTodoByIDs(request.params.todoId, request.params.subTodoId);
             if (!subTodo) {
-                response.status(404).json({ message: "Couldn't Get SubTodo By IDs" });
+                return response.status(404).json({ message: "Couldn't Get SubTodo By IDs" });
             }
-            response.status(200).json(subTodo);
+            return response.status(200).json(subTodo);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -45,15 +45,15 @@ const todoController = class TodoController {
             const body = request.body; // request.body is the data that the Vue App will send
             // Validating the data before we create a new Todo >> A best practice is to validate the data on the client side as well
             if (!body.todo || !body.deadline || !body.sort) { // Mongoose Schema also offer validation, We can use express-validator as well , but for now we will just check if the required fields are filled
-                response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sort)." });
+                return response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sort)." });
             }
             const createdTodo = await TodoService.createNewTodo(request.user, body);
             if (!createdTodo) {
-                response.status(404).json({ message: "Couldn't Create New Todo" });
+                return response.status(404).json({ message: "Couldn't Create New Todo" });
             }
-            response.status(200).json(createdTodo);
+            return response.status(200).json(createdTodo);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -62,15 +62,15 @@ const todoController = class TodoController {
             // Validating the data before we create a new subTodo >> A best practice is to validate the data on the client side as well
             const body = request.body;
             if (!body.todo || !body.sort || !body.deadline) {
-                response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sort)." });
+                return response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sort)." });
             }
             const createdSubTodo = await TodoService.createNewSubTodoByTodoId(request.params.todoId, body);
             if (!createdSubTodo) {
-                response.status(404).json({ message: "Couldn't Create New SubTodo" });
+                return response.status(404).json({ message: "Couldn't Create New SubTodo" });
             }
-            response.status(200).json(createdSubTodo);
+            return response.status(200).json(createdSubTodo);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -79,19 +79,19 @@ const todoController = class TodoController {
             const body = request.body;
             // Validating the data before we update a Todo >> A best practice is to validate the data on the client side as well
             if (!body.todo && !body.sort && !body.status && !body.subTodos && !body.deadline) {
-                response.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sort, status, subTodos)." });
+                return response.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sort, status, subTodos)." });
             }
             const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
             if (body.status && !statuses.includes(body.status)) {
-                response.status(400).json({ message: "Status can only be one of the following: NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED." });
+                return response.status(400).json({ message: "Status can only be one of the following: NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED." });
             }
             const updatedTodo = await TodoService.updateTodoById(request.params.todoId, request.body);
             if (!updatedTodo || updatedTodo.modifiedCount === 0) {
-                response.status(404).json({ message: "Couldn't Update Todo By Id" });
+                return response.status(404).json({ message: "Couldn't Update Todo By Id" });
             }
-            response.status(200).json(updatedTodo);
+            return response.status(200).json(updatedTodo);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -100,19 +100,19 @@ const todoController = class TodoController {
             const body = request.body;
             // Validating the data before we update a subTodo >> A best practice is to validate the data on the client side as well
             if (!body.todo && !body.status && !body.sort && !body.deadline) {
-                res.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sort, status)." });
+                return response.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sort, status)." });
             }
             const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
             if (body.status && !statuses.includes(body.status)) {
-                response.status(400).json({ message: "Status can only be one of the following: NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED." });
+                return response.status(400).json({ message: "Status can only be one of the following: NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED." });
             }
             const updatedSubTodo = await TodoService.updateSubTodoByIDs(request.params.todoId, request.params.subTodoId, body);
             if (!updatedSubTodo || updatedSubTodo.modifiedCount === 0) {
-                response.status(404).json({ message: "Couldn't Update SubTodo By IDs" });
+                return response.status(404).json({ message: "Couldn't Update SubTodo By IDs" });
             }
-            response.status(200).json(updatedSubTodo);
+            return response.status(200).json(updatedSubTodo);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -120,11 +120,11 @@ const todoController = class TodoController {
         try {
             const deletedTodo = await TodoService.deleteTodoById(request.params.todoId);
             if (!deletedTodo) {
-                response.status(404).json({ message: "Couldn't Delete Todo By Id" });
+                return response.status(404).json({ message: "Couldn't Delete Todo By Id" });
             }
-            response.status(200).json(deletedTodo);
+            return response.status(200).json(deletedTodo);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -132,11 +132,11 @@ const todoController = class TodoController {
         try {
             const deletedSubTodo = await TodoService.deleteSubTodoByIDs(request.params.todoId, request.params.subTodoId);
             if (!deletedSubTodo) {
-                response.status(404).json({ message: "Couldn't Delete SubTodo By IDs" });
+                return response.status(404).json({ message: "Couldn't Delete SubTodo By IDs" });
             }
-            response.status(200).json(deletedSubTodo);
+            return response.status(200).json(deletedSubTodo);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 
@@ -144,11 +144,11 @@ const todoController = class TodoController {
         try {
             const statistics = await TodoService.apiGetStatistics(request);
             if (!statistics) {
-                response.status(404).json({ message: "Couldn't Get Statistics!" });
+                return response.status(404).json({ message: "Couldn't Get Statistics!" });
             }
-            response.status(200).json(statistics);
+            return response.status(200).json(statistics);
         } catch (error) {
-            response.status(500).json({ error: error });
+            return response.status(500).json({ error: error });
         }
     }
 }
