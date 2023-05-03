@@ -3,7 +3,7 @@ const UserService = require("../services/UserService");
 
 const userController = class UserController {
 
-    static async register(request, response, next) {
+    static async apiRegister(request, response, next) {
         try {
             const body = request.body;
             if (!body.first_name || !body.last_name || !body.email || !body.password) {
@@ -22,7 +22,7 @@ const userController = class UserController {
         }
     }
 
-    static async login(request, response, next) {
+    static async apiLogin(request, response, next) {
         try {
             const body = request.body;
             if (!body.email || !body.password) {

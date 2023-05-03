@@ -5,34 +5,25 @@ const auth = require('../middlewares/auth');
 const TodoController = require("../controllers/todo.controller");
 
 // Get All Todo routes
-router.get('/', auth, TodoController.apiGetAllTodos);
-
-// Get a specific Todo route by ID >> GET method
-router.get('/get/:todoId', auth, TodoController.apiGetTodoById);
-
-// Get a specific subTodo route by ID >> GET method
-router.get('/get-sub-todo/:todoId/:subTodoId', auth, TodoController.apiGetSubTodoByIDs);
-
-// Create a Todo route >> POST method
-router.post('/new', auth, TodoController.apiCreateNewTodo);
-
-// Add a subTodo route >> POST method
-router.post('/new-sub-todo/:todoId', auth, TodoController.apiCreateNewSubTodoByTodoId);
-
-// Update a specific Todo route by ID >> PUT method
-router.put('/update/:todoId', auth, TodoController.apiUpdateTodoById);
-
-// Update a specific subTodo route by ID >> PUT/PATCH method (PATCH is used to update a specific part of the object which is what we need here)
-router.put('/update-sub-todo/:todoId/:subTodoId', auth, TodoController.apiUpdateSubTodoByIDs);
-
-// Delete a specific Todo route by ID >> DELETE method
-router.delete('/delete/:todoId', auth, TodoController.apiDeleteTodoById);
-
-// Delete a subTodo route by ID >> DELETE method
-router.delete('/delete-sub-todo/:todoId/:subTodoId', auth, TodoController.apiDeleteSubTodoByIDs);
-
-// User Todos Statistics
-router.get('/statistics', auth, TodoController.apiGetStatistics);
+router.get('/', auth, TodoController.apiGetAllTodos)
+    // Get a specific Todo route by ID >> GET method
+    .get('/get/:todoId', auth, TodoController.apiGetTodoById)
+    // Get a specific subTodo route by ID >> GET method
+    .get('/get-sub-todo/:todoId/:subTodoId', auth, TodoController.apiGetSubTodoByIDs)
+    // Create a Todo route >> POST method
+    .post('/new', auth, TodoController.apiCreateNewTodo)
+    // Add a subTodo route >> POST method
+    .post('/new-sub-todo/:todoId', auth, TodoController.apiCreateNewSubTodoByTodoId)
+    // Update a specific Todo route by ID >> PUT method
+    .put('/update/:todoId', auth, TodoController.apiUpdateTodoById)
+    // Update a specific subTodo route by ID >> PUT/PATCH method (PATCH is used to update a specific part of the object which is what we need here)
+    .put('/update-sub-todo/:todoId/:subTodoId', auth, TodoController.apiUpdateSubTodoByIDs)
+    // Delete a specific Todo route by ID >> DELETE method
+    .delete('/delete/:todoId', auth, TodoController.apiDeleteTodoById)
+    // Delete a subTodo route by ID >> DELETE method
+    .delete('/delete-sub-todo/:todoId/:subTodoId', auth, TodoController.apiDeleteSubTodoByIDs)
+    // User Todos Statistics
+    .get('/statistics', auth, TodoController.apiGetStatistics);
 
 module.exports = router;
 

@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 const UserController = require("../controllers/user.controller");
 const auth = require('../middlewares/auth');
-// Register a new User
-router.post("/register", UserController.register);
 
-// Login a registered User
-router.post("/login", UserController.login);
+
+// Register a new User
+router
+    .post("/register", UserController.apiRegister)
+    // Login a registered User
+    .post("/login", UserController.apiLogin);
 
 //! Note that we can use a rate limiter (throttling) to limit the number of requests to the login route, to prevent brute force attacks. >> but for now it's just a simple app, so we don't need to do that.
 
@@ -14,6 +16,5 @@ router.post("/login", UserController.login);
 // router.post("/logout", auth, UserController.logout);
 
 // But we don't need to logout, because we are using JWT, so we can just delete the token from the client side and the user will be logged out automatically.
-
 
 module.exports = router;
