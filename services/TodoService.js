@@ -209,7 +209,7 @@ const todoService = class TodoService {
                 signupDate: user.created_at,
                 daysSinceSignUp: daysSinceSignUp,
                 averageCompletionRate: averageCompletionRate,
-                lastCompletedTodo: await Todo.findOne({ author: user._id, status: "COMPLETED" }).sequence({ completed_at: "descending" }),
+                lastCompletedTodo: await Todo.findOne({ author: user._id, status: "COMPLETED" }).sort({ completed_at: "descending" }),
             };
             return statistics;
         } catch (err) {
