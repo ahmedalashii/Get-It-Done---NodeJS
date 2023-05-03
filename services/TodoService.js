@@ -41,7 +41,7 @@ const todoService = class TodoService {
                 created_at: new Date(),
                 updated_at: new Date(),
                 deadline: data.deadline,
-                sort: data.sort,
+                sequence: data.sequence,
                 status: data.status ?? "NOT_STARTED", // when we create a todo it will be "NOT_STARTED" by default >> ?? is a Nullish coalescing operator
                 subTodos: data.subTodos ?? [],
             },
@@ -64,7 +64,7 @@ const todoService = class TodoService {
             created_at: new Date(),
             updated_at: new Date(),
             deadline: data.deadline,
-            sort: data.sort,
+            sequence: data.sequence,
             status: data.status ?? "NOT_STARTED", // when we create a subTodo it will be "NOT_STARTED" by default
         };
         if (newSubTodo.status === "COMPLETED") { // if the subTodo is added as completed then we will add the completed_at date >> this is only if there's a possibility to choose the status when adding a subTodo
@@ -94,7 +94,7 @@ const todoService = class TodoService {
                 author: oldTodo.author,
                 updated_at: new Date(),
                 deadline: data.deadline ?? oldTodo.deadline,
-                sort: data.sort ?? oldTodo.sort,
+                sequence: data.sequence ?? oldTodo.sequence,
                 status: data.status ?? oldTodo.status,
                 subTodos: data.subTodos ?? oldTodo.subTodos,
             };
@@ -138,7 +138,7 @@ const todoService = class TodoService {
                 status: data.status ?? oldSubTodo.subTodos[0].status,
                 updated_at: new Date(),
                 deadline: data.deadline ?? oldSubTodo.subTodos[0].deadline,
-                sort: data.sort ?? oldSubTodo.subTodos[0].sort,
+                sequence: data.sequence ?? oldSubTodo.subTodos[0].sequence,
             };
             if (subTodo.status === "IN_PROGRESS" || subTodo.status === "COMPLETED") {
                 if (subTodo.status === "COMPLETED") {
@@ -183,7 +183,7 @@ const todoService = class TodoService {
     static async apiGetStatistics(request) {
         try {
             const user = await User.findById({ _id: request.user.user_id });
-            // We want to get the percentage of the completed todos for the current user to the total number of todos for the current user
+            //* We want to get the percentage of the completed todos for the current user to the total number of todos for the current user
             const totalTodos = await Todo.countDocuments({ author: user._id });
             const completedTodos = await Todo.countDocuments({ author: user._id, status: "COMPLETED" });
             const completionRate = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
@@ -209,7 +209,7 @@ const todoService = class TodoService {
                 signupDate: user.created_at,
                 daysSinceSignUp: daysSinceSignUp,
                 averageCompletionRate: averageCompletionRate,
-                lastCompletedTodo: await Todo.findOne({ author: user._id, status: "COMPLETED" }).sort({ completed_at: "descending" }),
+                lastCompletedTodo: await Todo.findOne({ author: user._id, status: "COMPLETED" }).sequence({ completed_at: "descending" }),
             };
             return statistics;
         } catch (err) {

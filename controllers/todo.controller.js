@@ -44,8 +44,8 @@ const todoController = class TodoController {
         try {
             const body = request.body; // request.body is the data that the Vue App will send
             // Validating the data before we create a new Todo >> A best practice is to validate the data on the client side as well
-            if (!body.todo || !body.deadline || !body.sort) { // Mongoose Schema also offer validation, We can use express-validator as well , but for now we will just check if the required fields are filled
-                return response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sort)." });
+            if (!body.todo || !body.deadline || !body.sequence) { // Mongoose Schema also offer validation, We can use express-validator as well , but for now we will just check if the required fields are filled
+                return response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sequence)." });
             }
             const createdTodo = await TodoService.createNewTodo(request.user, body);
             if (!createdTodo) {
@@ -61,8 +61,8 @@ const todoController = class TodoController {
         try {
             // Validating the data before we create a new subTodo >> A best practice is to validate the data on the client side as well
             const body = request.body;
-            if (!body.todo || !body.sort || !body.deadline) {
-                return response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sort)." });
+            if (!body.todo || !body.sequence || !body.deadline) {
+                return response.status(400).json({ message: "Please fill in all the required fields (todo, deadline, sequence)." });
             }
             const createdSubTodo = await TodoService.createNewSubTodoByTodoId(request.params.todoId, body);
             if (!createdSubTodo) {
@@ -78,8 +78,8 @@ const todoController = class TodoController {
         try {
             const body = request.body;
             // Validating the data before we update a Todo >> A best practice is to validate the data on the client side as well
-            if (!body.todo && !body.sort && !body.status && !body.subTodos && !body.deadline) {
-                return response.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sort, status, subTodos)." });
+            if (!body.todo && !body.sequence && !body.status && !body.subTodos && !body.deadline) {
+                return response.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sequence, status, subTodos)." });
             }
             const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
             if (body.status && !statuses.includes(body.status)) {
@@ -99,8 +99,8 @@ const todoController = class TodoController {
         try {
             const body = request.body;
             // Validating the data before we update a subTodo >> A best practice is to validate the data on the client side as well
-            if (!body.todo && !body.status && !body.sort && !body.deadline) {
-                return response.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sort, status)." });
+            if (!body.todo && !body.status && !body.sequence && !body.deadline) {
+                return response.status(400).json({ message: "Please fill in at least one field to update (todo, deadline, sequence, status)." });
             }
             const statuses = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "CANCELED"];
             if (body.status && !statuses.includes(body.status)) {

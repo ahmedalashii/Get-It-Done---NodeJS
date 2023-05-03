@@ -54,7 +54,7 @@ module.exports = router;
         updated_at: Date,
         deadline: Date,
         completed_at: Date,
-        sort: Number, // 1, 2, 3, 4, 5 >> 1 is the most important and 5 is the least important
+        sequence: Number, // 1, 2, 3, 4, 5 >> 1 is the most important and 5 is the least important
         enum: Object.values(status),
          status: {
             type: String,
@@ -68,7 +68,7 @@ module.exports = router;
             updated_at: Date,
             deadline: Date,
             completed_at: Date,
-            sort: Number, // 1, 2, 3, 4, 5 >> 1 is the most important and 5 is the least important
+            sequence: Number, // 1, 2, 3, 4, 5 >> 1 is the most important and 5 is the least important
             enum: Object.values(status),
             status: {
                 type: String,

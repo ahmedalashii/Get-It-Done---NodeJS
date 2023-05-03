@@ -7,7 +7,7 @@ const SubTodoSchema = new mongoose.Schema({
     updated_at: Date,
     deadline: Date,
     completed_at: Date,
-    sort: Number, // 1, 2, 3, 4, 5 .. >> length of the array
+    sequence: Number, // 1, 2, 3, 4, 5 .. >> length of the array
     status: {
         type: String,
         enum: statuses,
@@ -28,7 +28,7 @@ const TodoSchema = new mongoose.Schema({
     },
     deadline: Date, // or due_date
     completed_at: Date,
-    sort: Number, // 1, 2, 3, 4, 5 .. >> length of the array 
+    sequence: Number, // 1, 2, 3, 4, 5 .. >> length of the array 
     status: {
         type: String,
         enum: statuses,
