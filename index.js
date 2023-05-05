@@ -32,10 +32,10 @@ app.get("/", (res, req) => { // GET method
 });
 
 
-const UserRoute = require('./routes/user.routes'); // import the user route
-app.use('/user', UserRoute); // use the user route
-const TodosRoute = require('./routes/todo.routes'); // import the todos route
-app.use('/todos', TodosRoute); // use the todos route
+const UsersRoute = require('./v1/api/routes/users.routes'); // import the users route
+app.use('/api/v1/users', UsersRoute); // use the users route
+const TodosRoute = require('./v1/api/routes/todo.routes'); // import the todos route
+app.use('/api/v1/todos', TodosRoute); // use the todos route
 const PORT = process.env.API_PORT || 3000;
 // The OR operator || uses the right value if left is falsy, while the nullish coalescing operator ?? uses the right value if left is null or undefined.
 app.listen(PORT, () => {

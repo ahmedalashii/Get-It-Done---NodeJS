@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middlewares/auth');
+const auth = require('../../../middlewares/auth');
 //! Router is a middleware in Express that allows you to group the route handlers for a particular part of a site together and access them using a common route-prefix.
-const TodoController = require("../controllers/todo.controller");
+const TodoController = require("../../../controllers/todo.controller");
 
+//^ The pattern below is called "Chaining Routes" or "Route Grouping" or "Builder Design Pattern"
 // Get All Todo routes
 router.get('/', auth, TodoController.apiGetAllTodos)
     // Get a specific Todo route by ID >> GET method

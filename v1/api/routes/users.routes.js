@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require("../controllers/user.controller");
-const auth = require('../middlewares/auth');
+const UserController = require("../../../controllers/user.controller");
+const auth = require('../../../middlewares/auth');
 
-
+//^ The pattern below is called "Chaining Routes" or "Route Grouping" or "Builder Design Pattern"
 // Register a new User
 router
     .post("/register", UserController.apiRegister)

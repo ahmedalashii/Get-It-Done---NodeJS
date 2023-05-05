@@ -40,7 +40,6 @@ As discussed above, we'll be using Express.js for our API. I don't want to come 
 ![alt text](https://www.freecodecamp.org/news/content/images/2022/04/Bildschirmfoto-2022-04-25-um-14.33.24-1.png)
 
 
-
 ## What is the MVC architecture?
 Model View Controller is a software architectural pattern that involves the separation of the application logic into three interconnected elements the Model, View, and Controller.
 
@@ -73,43 +72,71 @@ Model View Controller is a software architectural pattern that involves the sepa
 REST is an acronym for Representation State Transfer, API on the other hand is an acronym for Application Programming Interface. A RESTful API is an architectural style for an application program interface (API) that uses HTTP requests to access and use data.
 
 
+## Versioning
+Before we write any API-specific code we should be aware of versioning. Like in other applications there will be improvements, new features, and stuff like that. So it's important to version our API as well.
+
+The big advantage is that we can work on new features or improvements on a new version while the clients are still using the current version and are not affected by breaking changes.
+
+We also don't force the clients to use the new version straight away. They can use the current version and migrate on their own when the new version is stable.
+
+The current and new versions are basically running in parallel and don't affect each other.
+
+But how can we differentiate between the versions? One good practice is to add a path segment like v1 or v2 into the URL.
+
+```
+    // Version 1 
+    "/api/v1/users" 
+
+    // Version 2 
+    "/api/v2/users" 
+
+    // ...
+```
+
+That's what we expose to the outside world and what can be consumed by other developers. But we also need to structure our project in order to differentiate between each version.
+
+There are many different approaches to handling versioning inside an Express API. In our case I'd like to create a sub folder for each version inside our src directory called v1.
+
+
+
 ## Usage
 
 This application can be tested using an API development tool like Postman. You can use the following endpoints to interact with the API:
 
-### User Endpoints
-1. GET /user/register
+### Users Endpoints
+Let's suppose for now that the ``$versionNumber`` is v1:
+1. GET api/``$versionNumber``/users/register
     To register a new user.
-2. GET /user/login
+2. GET api/``$versionNumber``/users/login
     To login a user.
 
 ### Todo Endpoints 
 #### All todo endpoints require a valid token in the request header. You can get a token by registering a new user or logging in an existing user.
-1. GET /todos
+1. GET api/``$versionNumber``/todos
     To get a list of all todos.
 
-2. GET /todos/:todoId
+2. GET api/``$versionNumber``/todos/:todoId
     To get a single todo, where :todoId is the ID of the todo you want to retrieve.
 
-3. GET /todos/get-sub-todo/:todoId/:subTodoId
+3. GET api/``$versionNumber``/todos/get-sub-todo/:todoId/:subTodoId
     To get a single sub-todo, where :todoId is the ID of the parent todo and :subTodoId is the ID of the sub-todo you want to retrieve.
 
-4. POST /todos/new
+4. POST api/``$versionNumber``/todos/new
     To create a new todo, with the todo details in the request body.
 
-5. POST /todos/new-sub-todo/:todoId
+5. POST api/``$versionNumber``/todos/new-sub-todo/:todoId
     To create a new sub-todo for a specific todo, with the sub-todo details in the request body and :todoId as the ID of the parent todo.
 
-6. PUT /todos/update/:todoId
+6. PUT api/``$versionNumber``/todos/update/:todoId
     To update a todo, with the updated todo details in the request body and :todoId as the ID of the todo.
 
-7. PUT /todos/update-sub-todo/:todoId/:subTodoId
+7. PUT api/``$versionNumber``/todos/update-sub-todo/:todoId/:subTodoId
     To update a sub-todo, with the updated sub-todo details in the request body, :todoId as the ID of the parent todo, and :subTodoId as the ID of the sub-todo.
 
-8. DELETE /todos/delete/:todoId
+8. DELETE api/``$versionNumber``/todos/delete/:todoId
     To delete a todo, where :todoId is the ID of the todo you want to delete.
 
-9. DELETE /todos/delete-sub-todo/:todoId/:subTodoId
+9. DELETE api/``$versionNumber``/todos/delete-sub-todo/:todoId/:subTodoId
     To delete a sub-todo, where :todoId is the ID of the parent todo and :subTodoId is the ID of the sub-todo you want to delete.
 
 
