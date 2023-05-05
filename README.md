@@ -34,6 +34,13 @@ Before running this application, make sure you have the following installed on y
  - The application uses the MVC (Model-View-Controller) architecture, Where the model is the data, the view is the user interface (or API), and the controller is the brains of the application, which handles the logic and incoming requests.
  - The application uses Restful API architecture, where the API is designed to have logical endpoints that are easy to understand and remember.
 
+
+As discussed above, we'll be using Express.js for our API. I don't want to come up with a complex architecture so I'd like to stick to the 3 Layer Architecture:
+
+![alt text](https://www.freecodecamp.org/news/content/images/2022/04/Bildschirmfoto-2022-04-25-um-14.33.24-1.png)
+
+
+
 ## What is the MVC architecture?
 Model View Controller is a software architectural pattern that involves the separation of the application logic into three interconnected elements the Model, View, and Controller.
 
