@@ -2,9 +2,14 @@ const Todo = require('../models/Todo');
 const User = require('../models/User');
 const todoService = class TodoService {
 
-    static async getAllTodos(user) {
+    static async getAllTodos(user, sortQueriesMap) {
         try {
-            const allTodos = await Todo.find({ author: user.user_id }); // find() method returns an array of documents.
+            // if sortQueriesMap is empty then we will get all todos by the default sort (by created_at asc)
+            if (sortQueriesMap.size === 0) { // or if (Object.keys(sortQueriesMap).length === 0)
+                sortQueriesMap.created_at = "asc";
+            }
+            console.log("sortQueriesMap: ", sortQueriesMap);
+            const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap);
             return allTodos;
         } catch (err) {
             console.log("Couldn't Get All Todos: ", err);

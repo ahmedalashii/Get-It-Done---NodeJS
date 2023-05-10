@@ -6,7 +6,34 @@ const todoController = class TodoController {
     static async apiGetAllTodos(request, response, next) {
         try {
             // We want to get all todos of the logged in user, so we will get the user id from the request object
-            const todos = await TodoService.getAllTodos(request.user);
+            const sortQueriesMap = {};
+            const sortWays = ["asc", "desc", "ascending", "descending", 1, -1];
+            const queryParam = request.query; // request.query is the data that we will get from the url >> /api/todos?status=COMPLETED
+            const created_at = queryParam.created_at;
+            const completed_at = queryParam.completed_at;
+            const sequence = queryParam.sequence;
+            if (created_at) {
+                if (!sortWays.includes(created_at)) {
+                    return response.status(400).json({ message: "Please enter a valid value for created_at (asc, desc)." });
+                } else {
+                    sortQueriesMap.created_at = created_at;
+                }
+            }
+            if (completed_at) {
+                if (!sortWays.includes(completed_at)) {
+                    return response.status(400).json({ message: "Please enter a valid value for completed_at (asc, desc)." });
+                } else {
+                    sortQueriesMap.completed_at = completed_at;
+                }
+            }
+            if (sequence) {
+                if (!sortWays.includes(sequence)) {
+                    return response.status(400).json({ message: "Please enter a valid value for sequence (asc, desc)." });
+                } else {
+                    sortQueriesMap.sequence = sequence;
+                }
+            }
+            const todos = await TodoService.getAllTodos(request.user, sortQueriesMap);
             if (!todos) {
                 return response.status(404).json({ message: "Couldn't Get All Todos" });
             }
