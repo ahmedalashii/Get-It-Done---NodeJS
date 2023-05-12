@@ -12,9 +12,9 @@ router
 
 //! Note that we can use a rate limiter (throttling) to limit the number of requests to the login route, to prevent brute force attacks. >> but for now it's just a simple app, so we don't need to do that.
 
-// Logout a registered User (Delete the token) >> We can use redis to store the token and check if it's valid or not :)
-// router.post("/logout", auth, UserController.logout);
+//^ Logout a registered User (Delete the token) >> We can use redis to store the token and check if it's valid or not :)
+//^ router.post("/logout", auth, UserController.apiLogout);
 
-// But we don't need to logout, because we are using JWT, so we can just delete the token from the client side and the user will be logged out automatically.
+// But we don't need to logout, because we are using JWT, so we can just delete the token from the client side and the user will be logged out automatically. (Just a simple app, so we don't need to do that)
 
 module.exports = router;

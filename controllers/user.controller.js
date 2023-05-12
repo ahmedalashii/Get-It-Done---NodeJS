@@ -41,6 +41,16 @@ const userController = class UserController {
         }
     }
 
+    static async apiLogout(request, response, next) {
+        try {
+            const status = await UserService.logout(request);
+            return response.status(200).json({ message: (status == true) ? "Logged Out Successfully" : "Couldn't Logout" });
+        } catch (error) {
+            return response.status(500).json({ error: error });
+        }
+    }
+
+
     //! Note: We can use redis to store the token and check if it's valid or not :)
 }
 module.exports = userController;

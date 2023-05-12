@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 //! Node.js body parsing middleware. It's used to parse the incoming request bodies in a middleware before you handle it.
 const cors = require('cors');
+const auth = require('./middlewares/auth');
 //* Create an express app
 const app = express();
 // Handle CORS + middleware >> CORS = Cross Origin Resource Sharing which is a security feature in browsers
@@ -35,7 +36,7 @@ app.get("/", (res, req) => { // GET method
 const UsersRoute = require('./v1/api/routes/users.routes'); // import the users route
 app.use('/api/v1/users', UsersRoute); // use the users route
 const TodosRoute = require('./v1/api/routes/todo.routes'); // import the todos route
-app.use('/api/v1/todos', TodosRoute); // use the todos route
+app.use('/api/v1/todos', auth, TodosRoute); // use the todos route
 const PORT = process.env.API_PORT || 3000;
 // The OR operator || uses the right value if left is falsy, while the nullish coalescing operator ?? uses the right value if left is null or undefined.
 app.listen(PORT, () => {
