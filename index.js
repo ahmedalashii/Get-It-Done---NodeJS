@@ -8,8 +8,10 @@ const auth = require('./middlewares/auth');
 const app = express();
 // Handle CORS + middleware >> CORS = Cross Origin Resource Sharing which is a security feature in browsers
 app.use(cors());
+
+// A middleware specifiy the headers that are allowed to be sent from the client side then passes the request to the next middleware and so on until it reaches the route handler ..
 app.use(function (req, res, next) { // req = request, res = response, next = next function
-    res.header("Access-Control-Allow-Origin", "*"); //^ = allow all
+    res.header("Access-Control-Allow-Origin", "*"); // * = allow all
     res.header("Access-Control-Allow-METHODS", "GET, POST, PATCH, PUT, DELETE, HEAD, OPTIONS"); // allow these methods
     res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept"); // allow these headers
     next();
@@ -22,6 +24,7 @@ require("./config/database").connect();
 
 app.use(express.json());
 /*
+    ? express.json(): 
     * Returns middleware that only parses urlencoded bodies and only looks at requests
     * where the Content-Type header matches the type option
 */
