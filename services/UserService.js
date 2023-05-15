@@ -30,7 +30,6 @@ const userService = class UserService {
             // Create a token
             const token = jwt.sign(
                 { user_id: user._id, email },
-                { expiresIn: "1d", },
                 process.env.JWT_TOKEN_KEY,
             );
             // save user token
@@ -61,13 +60,6 @@ const userService = class UserService {
             // Create a token
             const token = jwt.sign(
                 { user_id: user._id, email, },
-                {
-                    expiresIn: "1d",
-                    /*
-                        When logging out, the client will just delete the token he stored (e.i. browser local storage).
-                        In that case, the client won’t have a token to put in the request, thus causing unauthorized response status ..
-                    */
-                },
                 process.env.JWT_TOKEN_KEY,
 
             );
