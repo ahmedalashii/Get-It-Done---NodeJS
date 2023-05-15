@@ -13,7 +13,7 @@ const todoController = class TodoController {
             const completed_at = queryParam.completed_at;
             const sequence = queryParam.sequence;
             // Pagination Logic >> We will use the query params perPage and page to implement pagination
-            const perPage = parseInt(queryParam.perPage);
+            const perPage = parseInt(queryParam.per_page);
             const page = parseInt(queryParam.page);
             /*
                 Page   PerPage(Limit)    Offset (Skip)
