@@ -43,7 +43,7 @@ app.use('/api/v1/todos', auth, TodosRoute); // use the todos route
 const PORT = process.env.API_PORT || 3000;
 // The OR operator || uses the right value if left is falsy, while the nullish coalescing operator ?? uses the right value if left is null or undefined.
 app.listen(PORT, () => {
-    console.log("Server is running on port 3000");
+    console.log("Server is running on port ", PORT);
 });
 
 

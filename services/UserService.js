@@ -61,7 +61,6 @@ const userService = class UserService {
             const token = jwt.sign(
                 { user_id: user._id, email, },
                 process.env.JWT_TOKEN_KEY,
-
             );
             // save user token
             user.token = token;

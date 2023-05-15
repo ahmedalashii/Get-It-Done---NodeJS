@@ -8,7 +8,6 @@ const todoService = class TodoService {
             if (sortQueriesMap.size === 0) { // or if (Object.keys(sortQueriesMap).length === 0)
                 sortQueriesMap.created_at = "asc";
             }
-            console.log("sortQueriesMap: ", sortQueriesMap);
             const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap);
             return allTodos;
         } catch (err) {

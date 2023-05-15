@@ -36,4 +36,4 @@ const TodoSchema = new mongoose.Schema({
     },
     subTodos: [SubTodoSchema]
 });
-module.exports = mongoose.model('Todos', TodoSchema);
+module.exports = mongoose.model('Todo', TodoSchema);

@@ -14,21 +14,21 @@ const todoController = class TodoController {
             const sequence = queryParam.sequence;
             if (created_at) {
                 if (!sortWays.includes(created_at)) {
-                    return response.status(400).json({ message: "Please enter a valid value for created_at (asc, desc)." });
+                    return response.status(400).json({ message: "Please enter a valid value for created_at (asc, desc, ascending, descending, 1, -1)." });
                 } else {
                     sortQueriesMap.created_at = created_at;
                 }
             }
             if (completed_at) {
                 if (!sortWays.includes(completed_at)) {
-                    return response.status(400).json({ message: "Please enter a valid value for completed_at (asc, desc)." });
+                    return response.status(400).json({ message: "Please enter a valid value for completed_at (asc, desc, ascending, descending, 1, -1)." });
                 } else {
                     sortQueriesMap.completed_at = completed_at;
                 }
             }
             if (sequence) {
                 if (!sortWays.includes(sequence)) {
-                    return response.status(400).json({ message: "Please enter a valid value for sequence (asc, desc)." });
+                    return response.status(400).json({ message: "Please enter a valid value for sequence (asc, desc, ascending, descending, 1, -1)." });
                 } else {
                     sortQueriesMap.sequence = sequence;
                 }
