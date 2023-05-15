@@ -12,8 +12,24 @@ const todoController = class TodoController {
             const created_at = queryParam.created_at;
             const completed_at = queryParam.completed_at;
             const sequence = queryParam.sequence;
-            const perPage = parseInt(queryParam.perPage) || 10;
-            const page = parseInt(queryParam.page) || 1;
+            // Pagination Logic >> We will use the query params perPage and page to implement pagination
+            const perPage = parseInt(queryParam.perPage);
+            const page = parseInt(queryParam.page);
+            /*
+                Page   PerPage(Limit)    Offset (Skip)
+                1       10                  0
+                2       10                  10
+                3       10                  20
+                4       10                  30
+                5       10                  40
+                6       10                  50
+                7       10                  60
+                8       10                  70
+                ..      ..                   ..
+            */
+            if (isNaN(perPage) || isNaN(page)) {
+                return response.status(400).json({ message: "Please enter a valid value for perPage and page." });
+            }
             if (created_at) {
                 if (!sortWays.includes(created_at)) {
                     return response.status(400).json({ message: "Please enter a valid value for created_at (asc, desc, ascending, descending, 1, -1)." });
