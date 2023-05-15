@@ -8,13 +8,14 @@ const todoService = class TodoService {
             if (sortQueriesMap.size === 0) { // or if (Object.keys(sortQueriesMap).length === 0)
                 sortQueriesMap.created_at = "asc";
             }
-            const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap).limit(perPage).skip(perPage * page); // find() method returns an array of documents that match the filter criteria.
+            const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap).limit(perPage).skip(perPage * (page - 1)); // find() method returns an array of documents that match the filter criteria.
             return {
                 currentPage: page,
                 perPage: perPage,
+                totalTodos: await Todo.countDocuments({ author: user.user_id }),
                 todos: allTodos,
-                pages: await this.getTodosPageCount(user, perPage) - 1, // we will subtract 1 because the pages start from 0
-                isLastPage: page === await this.getTodosPageCount(user, perPage) - 1,
+                pages: await this.getTodosPageCount(user, perPage),
+                isLastPage: page === await this.getTodosPageCount(user, perPage),
             };
         } catch (err) {
             console.log("Couldn't Get All Todos: ", err);
