@@ -21,12 +21,12 @@ const { ATLAS_DB_STRING } = process.env;
 */
 
 
-exports.connect = () => {
+exports.connect = () => { // its' like const connect = () => { ... } and then module.exports = { connect };
     // Connecting to the database
     mongoose
         .connect(ATLAS_DB_STRING, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+            useNewUrlParser: true, // useNewUrlParser: true is used because of the new url string parser in the new MongoDB driver (ensures compatibility with future MongoDB versions)
+            useUnifiedTopology: true, // useUnifiedTopology: true is used because of the new server discovery and monitoring engine in the new MongoDB driver
         })
         .then(() => {
             console.log("Successfully connected to database");

@@ -1,12 +1,12 @@
 const express = require('express');
 //! Express is a routing and middleware web framework that has minimal functionality of its own: An Express application is essentially a series of middleware function calls.
-const bodyParser = require('body-parser');
-//! Node.js body parsing middleware. It's used to parse the incoming request bodies in a middleware before you handle it.
 const cors = require('cors');
 const auth = require('./middlewares/auth');
 //* Create an express app
 const app = express();
-// Handle CORS + middleware >> CORS = Cross Origin Resource Sharing which is a security feature in browsers
+// Handle CORS + middleware >> CORS = Cross Origin Resource Sharing which is a security feature in browsers to control access to 
+// resources (such as APIs) hosted on a different domain than the one the web page originated from. 
+// It is a security feature implemented by browsers to prevent malicious scripts from making unauthorized requests and accessing sensitive data.
 app.use(cors());
 
 // A middleware specifiy the headers that are allowed to be sent from the client side then passes the request to the next middleware and so on until it reaches the route handler ..
@@ -19,18 +19,16 @@ app.use(function (req, res, next) { // req = request, res = response, next = nex
 
 //* DB STUFF
 require("dotenv").config();
-//! Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env. Storing configuration in the environment separate from code is based on The Twelve-Factor App methodology.
+//! Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env. Storing configuration in the environment separate from code is based on The Twelve-Factor App methodology (Twelve-Factors = Twelve Best Practices , one of them is that an application's configuration should be stored in the environment and not in the codebase).
 require("./config/database").connect();
 
-app.use(express.json());
+app.use(express.json()); // In earlier versions of Express.js, the body-parser package was commonly used to handle request bodies, including JSON payloads. However, starting from Express version 4.16.0, the express package itself provides a built-in middleware called express.json() to parse JSON request bodies.
+
 /*
     ? express.json(): 
-    * Returns middleware that only parses urlencoded bodies and only looks at requests
+    * Returns middleware that only parses urlencoded "bodies" and only looks at requests
     * where the Content-Type header matches the type option
 */
-app.use(bodyParser.urlencoded({ extended: true }));
-// using bodyParser to parse JSON bodies into JS objects
-app.use(bodyParser.json());
 app.get("/", (res, req) => { // GET method
     res.send("Hoooray! It works! This is Home page"); // a great info right! :D
 });
@@ -42,6 +40,8 @@ const TodosRoute = require('./v1/api/routes/todo.routes'); // import the todos r
 app.use('/api/v1/todos', auth, TodosRoute); // use the todos route
 const PORT = process.env.API_PORT || 3000;
 // The OR operator || uses the right value if left is falsy, while the nullish coalescing operator ?? uses the right value if left is null or undefined.
+// Both app.listen and http.createServer are methods used in Node.js to create an HTTP server and start listening for incoming HTTP requests.
+//! if you are using Express.js, it is recommended to use app.listen as it provides a simplified and convenient way to create an HTTP server. 
 app.listen(PORT, () => {
     console.log("Server is running on port ", PORT);
 });
