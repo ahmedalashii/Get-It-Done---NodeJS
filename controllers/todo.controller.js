@@ -30,6 +30,9 @@ const todoController = class TodoController {
             if (isNaN(perPage) || isNaN(page)) {
                 return response.status(400).json({ message: "Please enter a valid value for perPage and page." });
             }
+            if (page <= 0) {
+                return response.status(400).json({ message: "Please enter a positive value starting from 1 for page." });
+            }
             if (created_at) {
                 if (!sortWays.includes(created_at)) {
                     return response.status(400).json({ message: "Please enter a valid value for created_at (asc, desc, ascending, descending, 1, -1)." });
