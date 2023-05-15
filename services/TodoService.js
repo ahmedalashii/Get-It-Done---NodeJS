@@ -9,9 +9,27 @@ const todoService = class TodoService {
                 sortQueriesMap.created_at = "asc";
             }
             const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap).limit(perPage).skip(perPage * page); // find() method returns an array of documents that match the filter criteria.
-            return allTodos;
+            return {
+                currentPage: page,
+                perPage: perPage,
+                todos: allTodos,
+                pages: await this.getTodosPageCount(user, perPage) - 1, // we will subtract 1 because the pages start from 0
+                isLastPage: page === await this.getTodosPageCount(user, perPage) - 1,
+            };
         } catch (err) {
             console.log("Couldn't Get All Todos: ", err);
+        }
+    }
+
+
+    // private function called getTodosPageCount
+    static async getTodosPageCount(user, perPage) {
+        try {
+            const todosCount = await Todo.countDocuments({ author: user.user_id }); // countDocuments() method returns the count of all documents that match the filter criteria.
+            const pageCount = Math.ceil(todosCount / perPage);
+            return pageCount;
+        } catch (err) {
+            console.log("Couldn't Get Todos Page Count: ", err);
         }
     }
 
