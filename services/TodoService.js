@@ -2,13 +2,13 @@ const Todo = require('../models/Todo');
 const User = require('../models/User');
 const todoService = class TodoService {
 
-    static async getAllTodos(user, sortQueriesMap) {
+    static async getAllTodos(user, sortQueriesMap, perPage, page) {
         try {
             // if sortQueriesMap is empty then we will get all todos by the default sort (by created_at asc)
             if (sortQueriesMap.size === 0) { // or if (Object.keys(sortQueriesMap).length === 0)
                 sortQueriesMap.created_at = "asc";
             }
-            const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap);
+            const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap).limit(perPage).skip(perPage * page); // find() method returns an array of documents that match the filter criteria.
             return allTodos;
         } catch (err) {
             console.log("Couldn't Get All Todos: ", err);

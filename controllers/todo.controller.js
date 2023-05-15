@@ -12,6 +12,8 @@ const todoController = class TodoController {
             const created_at = queryParam.created_at;
             const completed_at = queryParam.completed_at;
             const sequence = queryParam.sequence;
+            const perPage = queryParam.per_page;
+            const page = queryParam.page;
             if (created_at) {
                 if (!sortWays.includes(created_at)) {
                     return response.status(400).json({ message: "Please enter a valid value for created_at (asc, desc, ascending, descending, 1, -1)." });
@@ -33,7 +35,7 @@ const todoController = class TodoController {
                     sortQueriesMap.sequence = sequence;
                 }
             }
-            const todos = await TodoService.getAllTodos(request.user, sortQueriesMap);
+            const todos = await TodoService.getAllTodos(request.user, sortQueriesMap, perPage, page);
             if (!todos) {
                 return response.status(404).json({ message: "Couldn't Get All Todos" });
             }

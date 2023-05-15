@@ -29,7 +29,7 @@ app.use(express.json()); // In earlier versions of Express.js, the body-parser p
     * Returns middleware that only parses urlencoded "bodies" and only looks at requests
     * where the Content-Type header matches the type option
 */
-app.get("/", (res, req) => { // GET method
+app.get("/", (res, req) => { // GET method route >> for testing only :D
     res.send("Hoooray! It works! This is Home page"); // a great info right! :D
 });
 
