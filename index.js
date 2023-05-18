@@ -64,10 +64,9 @@ app.use('/api/v1/todos', auth, TodosRoute); // use the todos route
 */
 
 app.use((request, response, next) => {
-    const error = createHttpError(404, 'ApiEndpoint Not Found');
+    const error = createHttpError(404, 'This Api Endpoint Not Found');
     return next(error); // Which in turn will be handled by the global error handler middleware
 });
-
 
 
 /*
