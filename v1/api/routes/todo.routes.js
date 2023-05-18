@@ -22,6 +22,8 @@ router.get('/', TodoController.apiGetAllTodos)
     .delete('/delete/:todoId', TodoController.apiDeleteTodoById)
     // Delete a subTodo route by ID >> DELETE method
     .delete('/delete-sub-todo/:todoId/:subTodoId', TodoController.apiDeleteSubTodoByIDs)
+    // Delete All Todos route >> DELETE method
+    .delete('/delete-all', TodoController.apiDeleteUserTodos)
     // User Todos Statistics
     .get('/statistics', TodoController.apiGetStatistics);
 

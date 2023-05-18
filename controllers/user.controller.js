@@ -1,24 +1,30 @@
 const { request } = require('express');
 const UserService = require("../services/UserService");
-
+const createHttpError = require("http-errors");
 const userController = class UserController {
 
     static async apiRegister(request, response, next) {
         try {
             const body = request.body;
             if (!body.first_name || !body.last_name || !body.email || !body.password) {
-                return response.status(400).json({ message: "Please fill in all the required fields (first_name, last_name, password, email)." });
+                const error = createHttpError(400, "Please fill in all the required fields (first_name, last_name, password, email).");
+                return next(error);
             }
             const createdUser = await UserService.register(body);
             if (!createdUser) {
-                return response.status(404).json({ message: "Couldn't Create New User" });
+                const error = createHttpError(404, "Couldn't Create New User");
+                return next(error);
             }
-            if (createdUser.error) {
-                return response.status(400).json({ message: createdUser.error });
+            if (createdUser.status == false) {
+                const error = createHttpError(400, createdUser.message);
+                return next(error);
             }
-            return response.status(200).json(createdUser);
+            // exclude password from the response
+            createdUser.password = undefined;
+            return response.status(200).json({ status: true, message: "User Created Successfully", data: createdUser });
         } catch (error) {
-            return response.status(500).json({ error: error });
+            const err = createHttpError(500, error.message);
+            return next(err);
         }
     }
 
@@ -26,27 +32,38 @@ const userController = class UserController {
         try {
             const body = request.body;
             if (!body.email || !body.password) {
-                return response.status(400).json({ message: "Please fill in all the required fields (email, password)." });
+                const error = createHttpError(400, "Please fill in all the required fields (email, password).");
+                return next(error);
             }
             const user = await UserService.login(body);
             if (!user) {
-                return response.status(404).json({ message: "Couldn't Login" });
+                const error = createHttpError(404, "Couldn't Login");
+                return next(error);
             }
-            if (user.error) {
-                return response.status(400).json({ message: user.error });
+            if (user.status == false) {
+                const error = createHttpError(400, user.message);
+                return next(error);
             }
-            return response.status(200).json(user);
+            // exclude password from the response
+            user.password = undefined;
+            return response.status(200).json({ status: true, message: "Logged In Successfully", data: user });
         } catch (error) {
-            return response.status(500).json({ error: error });
+            const err = createHttpError(500, error.message);
+            return next(err);
         }
     }
 
     static async apiLogout(request, response, next) {
         try {
-            const status = await UserService.logout(request);
-            return response.status(200).json({ message: (status == true) ? "Logged Out Successfully" : "Couldn't Logout" });
+            const isLoggedOut = await UserService.logout(request);
+            if (!isLoggedOut) {
+                const error = createHttpError(404, "Couldn't Logout");
+                return next(error);
+            }
+            return response.status(200).json({ status: true, message: "Logged Out Successfully" });
         } catch (error) {
-            return response.status(500).json({ error: error });
+            const err = createHttpError(500, error.message);
+            return next(err);
         }
     }
 

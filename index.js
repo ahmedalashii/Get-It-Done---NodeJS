@@ -4,6 +4,7 @@ const cors = require('cors');
 const auth = require('./middlewares/auth');
 //* Create an express app
 const app = express();
+const createHttpError = require('http-errors');
 // Handle CORS + middleware >> CORS = Cross Origin Resource Sharing which is a security feature in browsers to control access to 
 // resources (such as APIs) hosted on a different domain than the one the web page originated from. 
 // It is a security feature implemented by browsers to prevent malicious scripts from making unauthorized requests and accessing sensitive data.
@@ -16,6 +17,24 @@ app.use(function (req, res, next) { // req = request, res = response, next = nex
     res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept"); // allow these headers
     next();
 });
+
+
+/*
+    * The request life cycle:
+    1- Request comes in
+    2- We need to validate the request
+    3- If there's a problem, we need to stop the request and send back a response
+    4- If everything is OK, we need to pass the request along to the route handler
+    5- Route handler might do some database stuff
+    6- We need to respond with some JSON
+
+
+    * The request goes through a series of layers:
+    1- Request comes in
+    2- It first goes to the first middleware
+    3- If its api endpoint found, Then it goes to the router handler
+    4- If its api endpoint not found, Then it goes to the not found error handler middleware which in turn will be passed and handled by the global error handler middleware
+*/
 
 //* DB STUFF
 require("dotenv").config();
@@ -38,6 +57,31 @@ const UsersRoute = require('./v1/api/routes/users.routes'); // import the users 
 app.use('/api/v1/users', UsersRoute); // use the users route
 const TodosRoute = require('./v1/api/routes/todo.routes'); // import the todos route
 app.use('/api/v1/todos', auth, TodosRoute); // use the todos route
+
+
+/*
+* Not Found Error Handler 
+*/
+
+app.use((request, response, next) => {
+    const error = createHttpError(404, 'ApiEndpoint Not Found');
+    return next(error); // Which in turn will be handled by the global error handler middleware
+});
+
+
+
+/*
+* Global Error Handler
+*/
+//^ This is a global error handler middleware
+app.use((error, request, response, next) => {
+    return response.status(error.statusCode || 500).json({
+        status: false,
+        message: error.message,
+    });
+});
+
+
 const PORT = process.env.API_PORT || 3000;
 // The OR operator || uses the right value if left is falsy, while the nullish coalescing operator ?? uses the right value if left is null or undefined.
 // Both app.listen and http.createServer are methods used in Node.js to create an HTTP server and start listening for incoming HTTP requests.
