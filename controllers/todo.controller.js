@@ -93,12 +93,12 @@ const todoController = class TodoController {
     static async apiGetSubTodoByIDs(request, response, next) {
         try {
             const subTodo = await TodoService.getSubTodoByIDs(request.params.todoId, request.params.subTodoId);
-            if (subTodo.error) {
-                const error = createHttpError(400, subTodo.message);
-                return next(error);
-            }
             if (!subTodo) {
                 const error = createHttpError(404, "Couldn't Get SubTodo By IDs");
+                return next(error);
+            }
+            if (subTodo.error) {
+                const error = createHttpError(400, subTodo.message);
                 return next(error);
             }
             return response.status(200).json({ status: true, data: subTodo });
