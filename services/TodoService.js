@@ -192,12 +192,18 @@ const todoService = class TodoService {
                 updatedTodoId = updatedTodo._id;
             });
         }
-        await Todo.findOneAndUpdate(
+        const updatedTodo = await Todo.findOneAndUpdate(
             { _id: updatedTodoId ? updatedTodoId : _id, "subTodos._id": _subId },
             { $set: { "subTodos.$": subTodo } },
+            { new: true },
         );
-        return subTodo;
-
+        //! Find the updated subTodo based on its properties because the _id will be different
+        const updatedSubTodo = updatedTodo.subTodos.find(
+            (sub_todo) => {
+                return sub_todo.todo === subTodo.todo && sub_todo.created_at.getTime() === subTodo.created_at.getTime() && sub_todo.updated_at.getTime() === subTodo.updated_at.getTime();
+            },
+        );
+        return updatedSubTodo;
     }
 
     static async deleteTodoById(todoId) {

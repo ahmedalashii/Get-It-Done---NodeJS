@@ -10,7 +10,7 @@ const createHttpError = require('http-errors');
 // It is a security feature implemented by browsers to prevent malicious scripts from making unauthorized requests and accessing sensitive data.
 app.use(cors());
 
-// A middleware specifiy the headers that are allowed to be sent from the client side then passes the request to the next middleware and so on until it reaches the route handler ..
+// A middleware specifies the headers that are allowed to be sent from the client side then passes the request to the next middleware and so on until it reaches the route handler ..
 app.use(function (req, res, next) { // req = request, res = response, next = next function
     res.header("Access-Control-Allow-Origin", "*"); // * = allow all
     res.header("Access-Control-Allow-METHODS", "GET, POST, PATCH, PUT, DELETE, HEAD, OPTIONS"); // allow these methods
@@ -48,7 +48,7 @@ app.use(express.json()); // In earlier versions of Express.js, the body-parser p
     * Returns middleware that only parses urlencoded "bodies" and only looks at requests
     * where the Content-Type header matches the type option
 */
-app.get("/", (res, req) => { // GET method route >> for testing only :D
+app.get("/", (res, req) => { //^ GET method route >> for testing only :D
     res.send("Hoooray! It works! This is Home page"); // a great info right! :D
 });
 

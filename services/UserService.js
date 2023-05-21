@@ -36,6 +36,7 @@ const userService = class UserService {
         // save user token
         user.token = token;
         // return new user
+        // unset id
         return user;
 
     }

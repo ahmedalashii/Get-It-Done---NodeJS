@@ -6,7 +6,7 @@ const auth = require('../../../middlewares/auth');
 //^ The pattern below is called "Chaining Routes" or "Route Grouping" or "Builder Design Pattern"
 // Register a new User
 router
-    .post("/register", UserController.apiRegister)
+    .post("/register", UserController.apiRegister) // localhost:3000/api/v1/users/register
     // Login a registered User
     .post("/login", UserController.apiLogin);
 
