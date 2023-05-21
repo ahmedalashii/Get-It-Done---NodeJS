@@ -25,7 +25,7 @@ Before running this application, make sure you have the following installed on y
     ```
 4. Run `npm install` to install the dependencies
 5. Run `npm start` to start the server
-6. Open your postman and navigate to `http://localhost:3000/todos/$whatever` to test the endpoints >> see the usage section below for the endpoints
+6. Open your postman and navigate to `http://localhost:3000/api/v1/todos/$whatever` to test the endpoints >> see the usage section below for the endpoints
 
 ## Architecture
  - The application is built using Node.js and Express framework.
@@ -96,7 +96,6 @@ But how can we differentiate between the versions? One good practice is to add a
 That's what we expose to the outside world and what can be consumed by other developers. But we also need to structure our project in order to differentiate between each version.
 
 There are many different approaches to handling versioning inside an Express API. In our case I'd like to create a sub folder for each version inside our src directory called v1.
-
 
 
 ## Usage

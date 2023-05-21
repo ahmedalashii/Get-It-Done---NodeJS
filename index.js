@@ -28,7 +28,6 @@ app.use(function (req, res, next) { // req = request, res = response, next = nex
     5- Route handler might do some database stuff
     6- We need to respond with some JSON
 
-
     * The request goes through a series of layers:
     1- Request comes in
     2- It first goes to the first middleware
