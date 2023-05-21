@@ -31,6 +31,12 @@ require("dotenv").config();
 //! Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env. Storing configuration in the environment separate from code is based on The Twelve-Factor App methodology (Twelve-Factors = Twelve Best Practices , one of them is that an application's configuration should be stored in the environment and not in the codebase).
 require("./config/database").connect();
 
+
+process.on('unhandledRejection', (reason) => { // To catch unhandled promise rejections
+    console.log('Unhandled Rejection at:', reason.stack || reason);
+    process.exit(1); // To exit with a 'failure' code
+});
+
 app.use(express.json()); // In earlier versions of Express.js, the body-parser package was commonly used to handle request bodies, including JSON payloads. However, starting from Express version 4.16.0, the express package itself provides a built-in middleware called express.json() to parse JSON request bodies.
 
 /*
