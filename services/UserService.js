@@ -19,7 +19,7 @@ const userService = class UserService {
             return error;
         }
         // Encrypting Password
-        const encryptedPassword = await bcrypt.hash(password, 10); // 10 is SALT (Iterations) (number of rounds to apply while encrypting the password)
+        const encryptedPassword = bcrypt.hashSync(password, 10); // 10 is SALT (Iterations) (number of rounds to apply while encrypting the password)
         // Create a new user
         const user = await User.create({
             first_name: first_name,
@@ -53,7 +53,7 @@ const userService = class UserService {
             const error = { status: false, message: "Invalid Credentials, Please Try Again." };
             return error;
         }
-        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        const isPasswordMatch = bcrypt.compareSync(password, user.password);
         if (!isPasswordMatch) {
             const error = { status: false, message: "Invalid Credentials, Please Try Again." };
             return error;
