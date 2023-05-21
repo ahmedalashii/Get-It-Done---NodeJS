@@ -8,7 +8,7 @@ const todoController = class TodoController {
         try {
             // We want to get all todos of the logged in user, so we will get the user id from the request object
             const sortQueriesMap = {};
-            const sortWays = ["asc", "desc", "ascending", "descending", 1, -1];
+            const sortWays = ["asc", "desc", "ascending", "descending", "1", "-1"]; // "1" and "1" as strings are the same as 1 and -1 as numbers 
             const queryParam = request.query; // request.query is the data that we will get from the url >> /api/todos?status=COMPLETED
             const created_at = queryParam.created_at;
             const completed_at = queryParam.completed_at;
@@ -112,8 +112,8 @@ const todoController = class TodoController {
         try {
             const body = request.body; // request.body is the data that the Vue App will send
             // Validating the data before we create a new Todo >> A best practice is to validate the data on the client side as well
-            if (!body.todo || !body.deadline || !body.sequence) { // Mongoose Schema also offer validation, We can use express-validator as well , but for now we will just check if the required fields are filled
-                const error = createHttpError(400, "Please fill in all the required fields (todo, deadline, sequence).");
+            if (!body.todo || !body.deadline) { // Mongoose Schema also offer validation, We can use express-validator as well , but for now we will just check if the required fields are filled
+                const error = createHttpError(400, "Please fill in all the required fields (todo, deadline).");
                 return next(error);
             }
             const createdTodo = await TodoService.createNewTodo(request.user, body);
@@ -132,8 +132,8 @@ const todoController = class TodoController {
         try {
             // Validating the data before we create a new subTodo >> A best practice is to validate the data on the client side as well
             const body = request.body;
-            if (!body.todo || !body.sequence || !body.deadline) {
-                const error = createHttpError(400, "Please fill in all the required fields (todo, deadline, sequence).");
+            if (!body.todo || !body.deadline) {
+                const error = createHttpError(400, "Please fill in all the required fields (todo, deadline).");
                 return next(error);
             }
             const updatedTodo = await TodoService.createNewSubTodoByTodoId(request.params.todoId, body);

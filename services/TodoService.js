@@ -23,7 +23,6 @@ const todoService = class TodoService {
     }
 
 
-    // private function called getTodosPageCount
     static async getTodosPageCount(user, perPage) {
         const todosCount = await Todo.countDocuments({ author: user.user_id }); // countDocuments() method returns the count of all documents that match the filter criteria.
         const pageCount = Math.ceil(todosCount / perPage);
@@ -61,6 +60,11 @@ const todoService = class TodoService {
     }
 
     static async createNewTodo(user, data) {
+
+        // The sequence of the new todo will be the length of the todos array + 1
+        const todosLength = await Todo.countDocuments({ author: user.user_id });
+        const sequence = todosLength + 1;
+
         const newTodo = new Todo(
             {
                 todo: data.todo,
@@ -68,7 +72,7 @@ const todoService = class TodoService {
                 created_at: new Date(),
                 updated_at: new Date(),
                 deadline: data.deadline,
-                sequence: data.sequence,
+                sequence: data.sequence ?? sequence,
                 status: data.status ?? "NOT_STARTED", // when we create a todo it will be "NOT_STARTED" by default >> ?? is a Nullish coalescing operator
                 subTodos: data.subTodos ?? [],
             },
@@ -86,13 +90,17 @@ const todoService = class TodoService {
             return error;
         }
         const _id = new ObjectId(todoId);
+        // The sequence of the new subTodo will be the length of the subTodos array + 1
+        const subTodos = await Todo.findOne({ _id: _id }, { subTodos: 1, _id: 0 });
+        const sequence = subTodos.subTodos.length + 1;
+        console.log(subTodos);
         // We don't need to pass the user here because if we have the todoId then we have the user :) (middleware)
         const newSubTodo = {
             todo: data.todo,
             created_at: new Date(),
             updated_at: new Date(),
             deadline: data.deadline,
-            sequence: data.sequence,
+            sequence: data.sequence ?? sequence,
             status: data.status ?? "NOT_STARTED", // when we create a subTodo it will be "NOT_STARTED" by default
         };
         if (newSubTodo.status === "COMPLETED") { // if the subTodo is added as completed then we will add the completed_at date >> this is only if there's a possibility to choose the status when adding a subTodo
@@ -102,7 +110,7 @@ const todoService = class TodoService {
             { _id: _id },
             { $push: { subTodos: newSubTodo } }, // $push operator appends a specified value to an array.
             { new: true },
-        ); // updateOne() method updates a single document within the collection based on the filter.
+        );
         return updatedTodo;
 
     }
