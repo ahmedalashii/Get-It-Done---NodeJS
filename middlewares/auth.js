@@ -4,10 +4,14 @@ const createHttpError = require('http-errors');
 const { ObjectId } = require('bson');
 
 const verifyToken = (request, response, next) => {
-    const token = request.headers['x-access-token'];
+    var token = request.headers['x-access-token'];
     if (!token) {
-        const error = createHttpError(403, 'A token is required for authentication');
-        return response.status(error.statusCode).json({ status: false, message: error.message });
+        token = request.headers.authorization; // Bearer Token
+        if (!token) {
+            const error = createHttpError(403, 'A token is required for authentication');
+            return response.status(error.statusCode).json({ status: false, message: error.message });
+        }
+        token.startsWith('Bearer ') ? token = token.slice(7, token.length) : null;
     }
     try {
         const decoded = jws.verify(token, process.env.JWT_TOKEN_KEY);

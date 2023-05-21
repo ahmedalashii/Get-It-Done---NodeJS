@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     token: { type: String },
     created_at: { type: Date, default: Date.now },
     // todos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Todo' }]
-    //~ Or another option is to link the todo to the user by adding a author field to the todo model
+    //~ Or another option is to link the todo to the user by adding an author field to the todo model
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -10,15 +10,6 @@ const createHttpError = require('http-errors');
 // It is a security feature implemented by browsers to prevent malicious scripts from making unauthorized requests and accessing sensitive data.
 app.use(cors());
 
-// A middleware specifies the headers that are allowed to be sent from the client side then passes the request to the next middleware and so on until it reaches the route handler ..
-app.use(function (req, res, next) { // req = request, res = response, next = next function
-    res.header("Access-Control-Allow-Origin", "*"); // * = allow all
-    res.header("Access-Control-Allow-METHODS", "GET, POST, PATCH, PUT, DELETE, HEAD, OPTIONS"); // allow these methods
-    res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept"); // allow these headers
-    next();
-});
-
-
 /*
     * The request life cycle:
     1- Request comes in
@@ -56,7 +47,6 @@ const UsersRoute = require('./v1/api/routes/users.routes'); // import the users 
 app.use('/api/v1/users', UsersRoute); // use the users route
 const TodosRoute = require('./v1/api/routes/todo.routes'); // import the todos route
 app.use('/api/v1/todos', auth, TodosRoute); // use the todos route
-
 
 /*
 * Not Found Error Handler 
