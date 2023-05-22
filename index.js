@@ -81,7 +81,7 @@ const PORT = process.env.API_PORT || 3000;
 // Both app.listen and http.createServer are methods used in Node.js to create an HTTP server and start listening for incoming HTTP requests.
 //! if you are using Express.js, it is recommended to use app.listen as it provides a simplified and convenient way to create an HTTP server. 
 app.listen(PORT, () => {
-    console.log("Server is running on port ", PORT);
+    console.log("Server is running on port", PORT);
 });
 
 

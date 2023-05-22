@@ -6,7 +6,7 @@ const todoService = class TodoService {
     static async getAllTodos(user, sortQueriesMap, perPage, page) {
         // if sortQueriesMap is empty then we will get all todos by the default sort (by created_at asc)
         if (sortQueriesMap.size === 0) { // or if (Object.keys(sortQueriesMap).length === 0)
-            sortQueriesMap.created_at = "asc";
+            sortQueriesMap.created_at = "desc"; //* latest todos first by default if no sort queries are passed
         }
         const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap).limit(perPage).skip(perPage * (page - 1)); // find() method returns an array of documents that match the filter criteria.
         const totalTodos = await Todo.countDocuments({ author: user.user_id });
@@ -21,7 +21,6 @@ const todoService = class TodoService {
         };
 
     }
-
 
     static async getTodosPageCount(user, perPage) {
         const todosCount = await Todo.countDocuments({ author: user.user_id }); // countDocuments() method returns the count of all documents that match the filter criteria.
@@ -54,7 +53,12 @@ const todoService = class TodoService {
         const _subId = new ObjectId(subTodoId);
         const specificSubTodo = await Todo.findOne(
             { _id: _id },
-            { subTodos: { $elemMatch: { _id: _subId } } },
+            {
+                subTodos: {
+                    $elemMatch: { _id: _subId }
+                }
+                // or "subTodos._id": _subId
+            },
         ); // findOne() method returns a single document that satisfies the specified query criteria.
         return specificSubTodo.subTodos[0];
     }
@@ -161,7 +165,6 @@ const todoService = class TodoService {
         const _id = new ObjectId(todoId);
         const _subId = new ObjectId(subTodoId);
         const parentTodo = await Todo.findById({ _id: _id });
-
         if (!parentTodo) {
             const error = { error: true, message: "Parent Todo not found" };
             return error;

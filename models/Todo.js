@@ -37,3 +37,24 @@ const TodoSchema = new mongoose.Schema({
     subTodos: [SubTodoSchema]
 });
 module.exports = mongoose.model('Todo', TodoSchema);
+
+/*
+    You don't have to use a schema validation package like Joi.
+
+    But it would be good to use both of them. They compliment each other.
+
+    Joi is used for APIs to make sure that the data the client sends is valid. And mongoose schema is used to ensure that our data is in right shape.
+
+    A scenario where API validation with Joi makes sense:
+
+    We generally hash the user password, so in our user schema the maxlength option of the password can much bigger than the actual password length. So with Joi we can validate the password field so that it can't be greater than for example 10 characters in a login route.
+
+    A scenario where mongoose schema validation makes sense:
+
+    Let's say the client sent a valid data, it is possible that we forgot to set a property when we create a document. If we hadn't a required: true option in the mongoose schema for that field, the document would be created without that field.
+
+    Also validating the client data as soon as possible is good for security and performance before hitting the database.
+
+    The only downside of using both is some validation duplication. But it seems they created a package called joigoose to create a mongoose schema from a Joi schema.
+
+*/
