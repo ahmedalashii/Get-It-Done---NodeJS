@@ -14,7 +14,7 @@ const userService = class UserService {
         const { first_name, last_name, email, password } = data;
         const oldUser = await User.findOne({ email });
         if (oldUser) {
-            //It's a best practice to not tell the user that the email already exists in the database for security reasons.
+            // It's a best practice to not tell the user that the email already exists in the database for security reasons.
             const error = { status: false, message: "Couldn't Create a New User. Please check your data!" };
             return error;
         }
@@ -49,12 +49,8 @@ const userService = class UserService {
         */
         const { email, password } = data;
         const user = await User.findOne({ email });
-        if (!user) {
-            const error = { status: false, message: "Invalid Credentials, Please Try Again." };
-            return error;
-        }
         const isPasswordMatch = bcrypt.compareSync(password, user.password);
-        if (!isPasswordMatch) {
+        if (!user || !isPasswordMatch) {
             const error = { status: false, message: "Invalid Credentials, Please Try Again." };
             return error;
         }
