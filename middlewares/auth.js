@@ -11,7 +11,7 @@ const verifyToken = (request, response, next) => {
             const error = createHttpError(403, 'A token is required for authentication');
             return response.status(error.statusCode).json({ status: false, message: error.message });
         }
-        token.startsWith('Bearer ') ? token = token.slice(7, token.length) : null;
+        token.startsWith('Bearer ') ? token = token.slice(7, token.length).trimLeft() : null;
     }
     try {
         const decoded = jws.verify(token, process.env.JWT_TOKEN_KEY);
