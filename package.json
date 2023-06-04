@@ -7,7 +7,7 @@
     "start": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ahmed Alashi :)",
   "license": "ISC",
   "description": "This is a todo-list application which we call it as Get It Done :)",
   "dependencies": {
