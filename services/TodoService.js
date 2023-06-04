@@ -8,7 +8,7 @@ const todoService = class TodoService {
         if (sortQueriesMap.size === 0) { // or if (Object.keys(sortQueriesMap).length === 0)
             sortQueriesMap.created_at = "desc"; //* latest todos first by default if no sort queries are passed
         }
-        const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap).limit(perPage).skip(perPage * (page - 1)); // find() method returns an array of documents that match the filter criteria.
+        const allTodos = await Todo.find({ author: user.user_id }).sort(sortQueriesMap).skip((page - 1) * perPage).limit(perPage); // find() method returns an array of documents that match the filter criteria.
         const totalTodos = await Todo.countDocuments({ author: user.user_id });
         const pages = await this.getTodosPageCount(user, perPage);
         return {

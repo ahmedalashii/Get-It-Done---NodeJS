@@ -1,4 +1,4 @@
-const jws = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const createHttpError = require('http-errors');
 const { ObjectId } = require('bson');
@@ -14,7 +14,7 @@ const verifyToken = (request, response, next) => {
         token.startsWith('Bearer ') ? token = token.slice(7, token.length).trimLeft() : null;
     }
     try {
-        const decoded = jws.verify(token, process.env.JWT_TOKEN_KEY);
+        const decoded = jwt.verify(token, process.env.JWT_TOKEN_KEY);
         request.user = decoded;
         request.user.user_id = new ObjectId(request.user.user_id);
     } catch (err) {

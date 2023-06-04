@@ -4,11 +4,13 @@ const cors = require('cors');
 const auth = require('./middlewares/auth');
 //* Create an express app
 const app = express();
+const returnJson = require('./modules/json_response');
 const createHttpError = require('http-errors');
 // Handle CORS + middleware >> CORS = Cross Origin Resource Sharing which is a security feature in browsers to control access to 
 // resources (such as APIs) hosted on a different domain than the one the web page originated from. 
 // It is a security feature implemented by browsers to prevent malicious scripts from making unauthorized requests and accessing sensitive data.
 app.use(cors());
+global.returnJson = returnJson; // To make the returnJson function available globally
 
 /*
     * The request life cycle:
@@ -69,6 +71,9 @@ app.use((request, response, next) => {
 */
 //^ This is a global error handler middleware
 app.use((error, request, response, next) => {
+
+    // return returnJson(response, error.statusCode || 500, false, error.message || 'Internal Server Error', null);
+
     return response.status(error.statusCode || 500).json({
         status: false,
         message: error.message,
